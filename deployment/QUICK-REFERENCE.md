@@ -1,8 +1,8 @@
 # USAsset Portal - Quick Reference
 
 ## URLs
-- **Portal**: https://thankful-mud-0d3112f0f.2.azurestaticapps.net
-- **API**: https://ca-usasset-api.yellowforest-928e9b23.eastus.azurecontainerapps.io
+- **Portal**: https://thankful-mud-0d3112f0f.2.azurestaticapps.net ✅ **CONNECTED**
+- **API**: https://ca-usasset-api.yellowforest-928e9b23.eastus.azurecontainerapps.io ✅ **HEALTHY**
 - **GitHub**: https://github.com/james-s-usec/usasset-api-portal
 
 ## Essential Commands
@@ -23,7 +23,7 @@ gh secret set VITE_API_URL \
   --repo james-s-usec/usasset-api-portal \
   --body "https://ca-usasset-api.yellowforest-928e9b23.eastus.azurecontainerapps.io"
 
-# 2. Enable CORS on API
+# 2. Enable CORS on API (Environment variable + Code implementation required)
 az containerapp update \
   --name ca-usasset-api \
   --resource-group usasset-demo \
@@ -51,9 +51,10 @@ curl -s https://thankful-mud-0d3112f0f.2.azurestaticapps.net/ | head -10
 | Error | Fix |
 |-------|-----|
 | "localhost:3000" in console | Add VITE_API_URL secret |
-| CORS blocked | Update API ALLOWED_ORIGINS |
+| CORS blocked | ⚠️ **CRITICAL**: Implement CORS middleware in API code + set ALLOWED_ORIGINS |
 | White screen | Check GitHub Actions logs |
 | 404 on API calls | Verify API is running |
+| "Checking..." forever | Missing CORS headers - check API main.ts |
 
 ## Architecture
 ```
@@ -70,3 +71,10 @@ curl -s https://thankful-mud-0d3112f0f.2.azurestaticapps.net/ | head -10
 - CORS is required even in same Azure environment
 - Environment variables must be set during BUILD, not runtime
 - Always check GitHub Actions succeeded before debugging
+- **CORS requires BOTH environment variable AND code implementation**
+
+## Final Status (July 25, 2025)
+✅ **PORTAL**: Connected and operational  
+✅ **API**: Healthy with CORS headers  
+✅ **DEPLOYMENT**: Automated via GitHub Actions  
+📋 **SOP**: Available at `deployment/SOP-PORTAL-API-CONNECTION.md`

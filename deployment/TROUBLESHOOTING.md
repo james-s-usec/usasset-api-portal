@@ -68,23 +68,74 @@ env:
 
 **Symptoms**: 
 - Console error: `Access to fetch at 'api-url' from origin 'portal-url' has been blocked by CORS policy`
-- API returns 404 or no Access-Control headers
+- API returns 200 but no Access-Control headers in response
+- Connection status shows "Error" or "Checking..." indefinitely
 
-**Cause**: API not configured to allow portal origin
+**Root Cause**: API code missing CORS middleware implementation
 
-**Solution**:
+**CRITICAL**: Setting `ALLOWED_ORIGINS` environment variable alone is NOT sufficient. The NestJS code must implement CORS middleware.
+
+**Complete Solution**:
+
+1. **Add CORS middleware to API main.ts**:
+```typescript
+// In /projects/usasset-api-service/src/main.ts
+app.enableCors({
+  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void): void => {
+    const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') ?? ['*'];
+    
+    // Allow requests with no origin (mobile apps, curl, etc.)
+    if (!origin) {
+      callback(null, true);
+      return;
+    }
+    
+    // Allow all origins if '*' is set
+    if (allowedOrigins.includes('*')) {
+      callback(null, true);
+      return;
+    }
+    
+    // Check if origin is in allowed list
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+      return;
+    }
+    
+    callback(new Error('Not allowed by CORS'), false);
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key'],
+});
+```
+
+2. **Deploy API changes**:
 ```bash
-# Quick fix - allow all origins (temporary)
-az containerapp update \
-  --name ca-usasset-api \
-  --resource-group usasset-demo \
-  --set-env-vars "ALLOWED_ORIGINS=*"
+cd /home/swansonj/projects/usasset-api-service
+git add src/main.ts
+git commit -m "Add CORS middleware for portal integration"
+git push
+```
 
+3. **Set environment variable**:
+```bash
 # Production fix - allow specific origin
 az containerapp update \
   --name ca-usasset-api \
   --resource-group usasset-demo \
   --set-env-vars "ALLOWED_ORIGINS=https://thankful-mud-0d3112f0f.2.azurestaticapps.net"
+```
+
+4. **Verify fix works**:
+```bash
+# Test CORS headers are present
+curl -i -H "Origin: https://thankful-mud-0d3112f0f.2.azurestaticapps.net" \
+  https://ca-usasset-api.yellowforest-928e9b23.eastus.azurecontainerapps.io/v1/health | grep -i access-control
+
+# Should see:
+# access-control-allow-origin: https://thankful-mud-0d3112f0f.2.azurestaticapps.net
+# access-control-allow-credentials: true
 ```
 
 ### Issue 4: GitHub Actions Build Failures
@@ -238,4 +289,5 @@ gh run view RUN_ID --repo USERNAME/REPO --log-failed
 ---
 
 *Document created: July 25, 2025*
-*Last issue resolved: Environment variables not being passed during build*
+*Last issue resolved: CORS middleware implementation in NestJS API - July 25, 2025*
+*Final Status: ✅ Portal and API successfully connected and operational*
