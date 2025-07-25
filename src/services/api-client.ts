@@ -1,4 +1,4 @@
-import { Configuration, AuthenticationApi, UsersApi, ProjectsApi } from '@usasset/api-client';
+import { Configuration, AuthenticationApi, UsersApi, ProjectsApi } from '../api-sdk';
 
 // Create configuration
 const config = new Configuration({
