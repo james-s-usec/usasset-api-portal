@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  portal-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:3000
+      - VITE_AZURE_AD_CLIENT_ID=development-client-id
+      - VITE_AZURE_AD_TENANT_ID=development-tenant-id
+    volumes:
+      - ./src:/app/src
+      - ./public:/app/public
+      - ./index.html:/app/index.html
+    networks:
+      - usasset-network
+
+  portal-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile.production
+    ports:
+      - "3001:80"
+    environment:
+      - VITE_API_URL=http://localhost:3000
+      - VITE_AZURE_AD_CLIENT_ID=development-client-id
+      - VITE_AZURE_AD_TENANT_ID=development-tenant-id
+    networks:
+      - usasset-network
+    profiles:
+      - production
+
+networks:
+  usasset-network:
+    external: true
+    name: usasset-api-service_default  # Connect to API service network
