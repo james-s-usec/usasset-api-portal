@@ -68,3 +68,4 @@ Environment variables:
 ---
 
 *Deployed: July 25, 2025*
+*Updated: Fixed API URL configuration*
