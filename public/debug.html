@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Connection Test</title>
+</head>
+<body>
+    <h1>API Connection Debug</h1>
+    <div id="status">Checking...</div>
+    <pre id="details"></pre>
+    
+    <script>
+        const apiUrl = 'https://ca-usasset-api.yellowforest-928e9b23.eastus.azurecontainerapps.io';
+        const statusEl = document.getElementById('status');
+        const detailsEl = document.getElementById('details');
+        
+        async function checkConnection() {
+            try {
+                detailsEl.textContent = `Attempting to connect to: ${apiUrl}/v1/health\n`;
+                
+                const response = await fetch(`${apiUrl}/v1/health`);
+                const data = await response.json();
+                
+                statusEl.textContent = '✅ Connected!';
+                statusEl.style.color = 'green';
+                detailsEl.textContent += `Response: ${JSON.stringify(data, null, 2)}`;
+            } catch (error) {
+                statusEl.textContent = '❌ Connection Failed';
+                statusEl.style.color = 'red';
+                detailsEl.textContent += `Error: ${error.message}\n\n`;
+                detailsEl.textContent += 'This might be a CORS issue. Check browser console for details.';
+            }
+        }
+        
+        checkConnection();
+    </script>
+</body>
+</html>
