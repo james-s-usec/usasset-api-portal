@@ -1,10 +1,5 @@
 import { useState, useEffect } from 'react';
 
-interface HealthResponse {
-  status: string;
-  timestamp: string;
-}
-
 export function ConnectionStatus() {
   const [status, setStatus] = useState<'checking' | 'connected' | 'error'>('checking');
   const [details, setDetails] = useState<string>('');
@@ -22,7 +17,7 @@ export function ConnectionStatus() {
       const response = await fetch(`${apiUrl}/v1/health`);
       
       if (response.ok) {
-        const data: HealthResponse = await response.json();
+        await response.json(); // Verify response is valid JSON
         setStatus('connected');
         setDetails(`API: ${apiUrl}`);
       } else {
