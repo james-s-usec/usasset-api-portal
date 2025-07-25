@@ -1,69 +1,70 @@
-# React + TypeScript + Vite
+# USAsset API Portal
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend portal for the USAsset API Service built with React, TypeScript, and Vite.
 
-Currently, two official plugins are available:
+## 🚀 Deployment Status
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Portal URL**: https://thankful-mud-0d3112f0f.2.azurestaticapps.net
+- **API URL**: https://ca-usasset-api.yellowforest-928e9b23.eastus.azurecontainerapps.io
+- **Deployment**: Azure Static Web Apps
 
-## Expanding the ESLint configuration
+## 🛠️ Local Development
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Prerequisites
+- Node.js 20+
+- Docker (optional)
+- API service running locally or accessible
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Quick Start
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+```bash
+# Install dependencies
+npm install
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Link API SDK from adjacent project
+npm link @usasset/api-client
+
+# Start development server
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Docker Development
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+# Start with hot reload
+docker-compose up portal-dev
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Test production build
+docker-compose --profile production up portal-prod
 ```
+
+## 📚 Documentation
+
+- [Static Web App Deployment Guide](./deployment/azure/static-web-app-deployment.md)
+- [Azure AD Setup](./deployment/azure/azure-ad-setup.md)
+- [API SDK Integration](../usasset-api-service/docs/sops/sdk-vite-integration.md)
+
+## 🏗️ Architecture
+
+- **Framework**: React 18 + TypeScript
+- **Build Tool**: Vite
+- **Styling**: CSS (TBD: Tailwind/Material-UI)
+- **State Management**: TBD (Context/Zustand/Redux)
+- **API Client**: Auto-generated TypeScript SDK
+- **Deployment**: Azure Static Web Apps with GitHub Actions
+
+## 🔧 Configuration
+
+Environment variables:
+- `VITE_API_URL`: Backend API URL
+- `VITE_AZURE_AD_CLIENT_ID`: Azure AD client ID (optional)
+- `VITE_AZURE_AD_TENANT_ID`: Azure AD tenant ID (optional)
+
+## 📈 Monitoring
+
+- GitHub Actions: https://github.com/james-s-usec/usasset-api-portal/actions
+- Application Insights: Integrated with API service monitoring
+
+---
+
+*Deployed: July 25, 2025*
