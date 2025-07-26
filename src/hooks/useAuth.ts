@@ -7,8 +7,8 @@ interface UseAuthReturn {
   user: User | null;
   loading: boolean;
   authMethod: 'jwt' | 'apikey' | 'none';
-  loginMode: 'jwt' | 'apikey';
-  setLoginMode: (mode: 'jwt' | 'apikey') => void;
+  loginMode: 'jwt' | 'apikey' | 'azuread';
+  setLoginMode: (mode: 'jwt' | 'apikey' | 'azuread') => void;
   handleLoginSuccess: (token: string) => Promise<void>;
   handleApiKeySuccess: (apiKey: string) => void;
   handleLogout: () => void;
@@ -19,7 +19,7 @@ export const useAuth = (): UseAuthReturn => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [authMethod, setAuthMethod] = useState<'jwt' | 'apikey' | 'none'>('none');
-  const [loginMode, setLoginMode] = useState<'jwt' | 'apikey'>('apikey');
+  const [loginMode, setLoginMode] = useState<'jwt' | 'apikey' | 'azuread'>('apikey');
 
   useEffect((): void => {
     const currentAuthMethod = getAuthMethod();

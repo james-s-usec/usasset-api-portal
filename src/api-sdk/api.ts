@@ -1520,6 +1520,42 @@ export const AuthenticationApiAxiosParamCreator = function (configuration?: Conf
     return {
         /**
          * 
+         * @summary Exchange Azure AD token for internal JWT
+         * @param {object} body 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        authControllerAzureLogin: async (body: object, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'body' is not null or undefined
+            assertParamExists('authControllerAzureLogin', 'body', body)
+            const localVarPath = `/auth/azure`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Get current user profile from JWT
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1674,6 +1710,19 @@ export const AuthenticationApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @summary Exchange Azure AD token for internal JWT
+         * @param {object} body 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async authControllerAzureLogin(body: object, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuthControllerLogin200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.authControllerAzureLogin(body, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AuthenticationApi.authControllerAzureLogin']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Get current user profile from JWT
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1734,6 +1783,16 @@ export const AuthenticationApiFactory = function (configuration?: Configuration,
     return {
         /**
          * 
+         * @summary Exchange Azure AD token for internal JWT
+         * @param {object} body 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        authControllerAzureLogin(body: object, options?: RawAxiosRequestConfig): AxiosPromise<AuthControllerLogin200Response> {
+            return localVarFp.authControllerAzureLogin(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Get current user profile from JWT
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1781,6 +1840,16 @@ export const AuthenticationApiFactory = function (configuration?: Configuration,
 export interface AuthenticationApiInterface {
     /**
      * 
+     * @summary Exchange Azure AD token for internal JWT
+     * @param {object} body 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthenticationApiInterface
+     */
+    authControllerAzureLogin(body: object, options?: RawAxiosRequestConfig): AxiosPromise<AuthControllerLogin200Response>;
+
+    /**
+     * 
      * @summary Get current user profile from JWT
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1826,6 +1895,18 @@ export interface AuthenticationApiInterface {
  * @extends {BaseAPI}
  */
 export class AuthenticationApi extends BaseAPI implements AuthenticationApiInterface {
+    /**
+     * 
+     * @summary Exchange Azure AD token for internal JWT
+     * @param {object} body 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthenticationApi
+     */
+    public authControllerAzureLogin(body: object, options?: RawAxiosRequestConfig) {
+        return AuthenticationApiFp(this.configuration).authControllerAzureLogin(body, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @summary Get current user profile from JWT
@@ -1913,6 +1994,36 @@ export const HealthApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * 
+         * @summary Debug configuration status
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        healthControllerDebugConfig: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/health/debug/config`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Export audit logs
          * @param {number} [limit] Number of records to return (default: 100)
          * @param {*} [options] Override http request option.
@@ -1970,6 +2081,18 @@ export const HealthApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Debug configuration status
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async healthControllerDebugConfig(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.healthControllerDebugConfig(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['HealthApi.healthControllerDebugConfig']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Export audit logs
          * @param {number} [limit] Number of records to return (default: 100)
          * @param {*} [options] Override http request option.
@@ -2002,6 +2125,15 @@ export const HealthApiFactory = function (configuration?: Configuration, basePat
         },
         /**
          * 
+         * @summary Debug configuration status
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        healthControllerDebugConfig(options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.healthControllerDebugConfig(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Export audit logs
          * @param {number} [limit] Number of records to return (default: 100)
          * @param {*} [options] Override http request option.
@@ -2027,6 +2159,15 @@ export interface HealthApiInterface {
      * @memberof HealthApiInterface
      */
     healthControllerCheck(options?: RawAxiosRequestConfig): AxiosPromise<HealthControllerCheck200Response>;
+
+    /**
+     * 
+     * @summary Debug configuration status
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof HealthApiInterface
+     */
+    healthControllerDebugConfig(options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
     /**
      * 
@@ -2056,6 +2197,17 @@ export class HealthApi extends BaseAPI implements HealthApiInterface {
      */
     public healthControllerCheck(options?: RawAxiosRequestConfig) {
         return HealthApiFp(this.configuration).healthControllerCheck(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Debug configuration status
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof HealthApi
+     */
+    public healthControllerDebugConfig(options?: RawAxiosRequestConfig) {
+        return HealthApiFp(this.configuration).healthControllerDebugConfig(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

@@ -1,9 +1,9 @@
 interface AuthSelectorProps {
-  loginMode: 'jwt' | 'apikey';
-  onModeChange: (mode: 'jwt' | 'apikey') => void;
+  loginMode: 'jwt' | 'apikey' | 'azuread';
+  onModeChange: (mode: 'jwt' | 'apikey' | 'azuread') => void;
 }
 
-const buttonStyle = (isActive: boolean) => ({
+const buttonStyle = (isActive: boolean): React.CSSProperties => ({
   padding: '8px 16px',
   marginRight: '10px',
   backgroundColor: isActive ? '#007bff' : '#6c757d',
@@ -27,6 +27,12 @@ export const AuthSelector = ({ loginMode, onModeChange }: AuthSelectorProps): Re
         style={buttonStyle(loginMode === 'jwt')}
       >
         Username/Password
+      </button>
+      <button
+        onClick={(): void => onModeChange('azuread')}
+        style={buttonStyle(loginMode === 'azuread')}
+      >
+        Azure AD
       </button>
     </div>
   </div>

@@ -2,6 +2,7 @@ import './App.css'
 import { ConnectionStatus } from './components/ConnectionStatus'
 import { LoginForm } from './components/LoginForm'
 import { ApiKeyForm } from './components/ApiKeyForm'
+import { AzureADForm } from './components/AzureADForm'
 import { AuthSelector } from './components/AuthSelector'
 import { AuthenticatedView } from './components/AuthenticatedView'
 import { useAuth } from './hooks/useAuth'
@@ -29,8 +30,10 @@ function App(): React.JSX.Element {
         <AuthSelector loginMode={loginMode} onModeChange={setLoginMode} />
         {loginMode === 'apikey' ? (
           <ApiKeyForm onApiKeySuccess={handleApiKeySuccess} />
-        ) : (
+        ) : loginMode === 'jwt' ? (
           <LoginForm onLoginSuccess={handleLoginSuccess} />
+        ) : (
+          <AzureADForm onLoginSuccess={handleLoginSuccess} />
         )}
         <ConnectionStatus />
       </>
