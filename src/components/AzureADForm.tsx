@@ -20,33 +20,23 @@ export const AzureADForm = ({ onLoginSuccess }: AzureADFormProps): React.JSX.Ele
       const msalInstance = new PublicClientApplication(msalConfig);
       await msalInstance.initialize();
 
-      // Attempt login using popup
-      const loginResponse = await msalInstance.loginPopup(loginRequest);
+      // Check if there's an interaction in progress
+      const activeAccount = msalInstance.getActiveAccount();
+      const accounts = msalInstance.getAllAccounts();
       
-      if (loginResponse && loginResponse.idToken) {
-        // Exchange Azure AD token for internal JWT
-        try {
-          const response = await authApi.authControllerAzureLogin({
-            token: loginResponse.idToken
-          });
-
-          if (response.data.data?.access_token) {
-            await onLoginSuccess(response.data.data.access_token);
-          } else {
-            throw new Error('No access token received from server');
-          }
-        } catch (backendError) {
-          console.error('Backend token exchange failed:', backendError);
-          setError('Failed to authenticate with server. Please try again.');
-        }
+      if (!activeAccount && accounts.length === 0) {
+        // No active session, proceed with login
+        await msalInstance.loginRedirect(loginRequest);
+      } else {
+        // Clear any existing sessions first
+        await msalInstance.clearCache();
+        await msalInstance.loginRedirect(loginRequest);
       }
     } catch (msalError: any) {
       console.error('Azure AD login error:', msalError);
       
       // Handle specific MSAL errors
-      if (msalError.errorCode === 'popup_window_error' || msalError.errorCode === 'empty_window_error') {
-        setError('Popup was blocked. Please allow popups for this site and try again.');
-      } else if (msalError.errorCode === 'user_cancelled') {
+      if (msalError.errorCode === 'user_cancelled') {
         setError('Login was cancelled.');
       } else {
         setError('Azure AD login failed. Please try again.');

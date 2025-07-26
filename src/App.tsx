@@ -1,13 +1,15 @@
 import './App.css'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { ConnectionStatus } from './components/ConnectionStatus'
 import { LoginForm } from './components/LoginForm'
 import { ApiKeyForm } from './components/ApiKeyForm'
 import { AzureADForm } from './components/AzureADForm'
+import { AzureADCallback } from './components/AzureADCallback'
 import { AuthSelector } from './components/AuthSelector'
 import { AuthenticatedView } from './components/AuthenticatedView'
 import { useAuth } from './hooks/useAuth'
 
-function App(): React.JSX.Element {
+function AppContent(): React.JSX.Element {
   const {
     isAuthenticated,
     user,
@@ -50,6 +52,25 @@ function App(): React.JSX.Element {
       <ConnectionStatus />
     </>
   )
+}
+
+function App(): React.JSX.Element {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<AppContent />} />
+        <Route path="/auth/callback" element={
+          <AzureADCallbackWrapper />
+        } />
+      </Routes>
+    </BrowserRouter>
+  )
+}
+
+// Wrapper component to handle the callback with auth context
+function AzureADCallbackWrapper(): React.JSX.Element {
+  const { handleLoginSuccess } = useAuth()
+  return <AzureADCallback onLoginSuccess={handleLoginSuccess} />
 }
 
 export default App

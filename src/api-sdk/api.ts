@@ -1520,6 +1520,42 @@ export const AuthenticationApiAxiosParamCreator = function (configuration?: Conf
     return {
         /**
          * 
+         * @summary Exchange Azure AD auth code for internal JWT (Web App flow)
+         * @param {object} body 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        authControllerAzureCallback: async (body: object, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'body' is not null or undefined
+            assertParamExists('authControllerAzureCallback', 'body', body)
+            const localVarPath = `/auth/azure/callback`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Exchange Azure AD token for internal JWT
          * @param {object} body 
          * @param {*} [options] Override http request option.
@@ -1710,6 +1746,19 @@ export const AuthenticationApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @summary Exchange Azure AD auth code for internal JWT (Web App flow)
+         * @param {object} body 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async authControllerAzureCallback(body: object, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuthControllerLogin200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.authControllerAzureCallback(body, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AuthenticationApi.authControllerAzureCallback']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Exchange Azure AD token for internal JWT
          * @param {object} body 
          * @param {*} [options] Override http request option.
@@ -1783,6 +1832,16 @@ export const AuthenticationApiFactory = function (configuration?: Configuration,
     return {
         /**
          * 
+         * @summary Exchange Azure AD auth code for internal JWT (Web App flow)
+         * @param {object} body 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        authControllerAzureCallback(body: object, options?: RawAxiosRequestConfig): AxiosPromise<AuthControllerLogin200Response> {
+            return localVarFp.authControllerAzureCallback(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Exchange Azure AD token for internal JWT
          * @param {object} body 
          * @param {*} [options] Override http request option.
@@ -1840,6 +1899,16 @@ export const AuthenticationApiFactory = function (configuration?: Configuration,
 export interface AuthenticationApiInterface {
     /**
      * 
+     * @summary Exchange Azure AD auth code for internal JWT (Web App flow)
+     * @param {object} body 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthenticationApiInterface
+     */
+    authControllerAzureCallback(body: object, options?: RawAxiosRequestConfig): AxiosPromise<AuthControllerLogin200Response>;
+
+    /**
+     * 
      * @summary Exchange Azure AD token for internal JWT
      * @param {object} body 
      * @param {*} [options] Override http request option.
@@ -1895,6 +1964,18 @@ export interface AuthenticationApiInterface {
  * @extends {BaseAPI}
  */
 export class AuthenticationApi extends BaseAPI implements AuthenticationApiInterface {
+    /**
+     * 
+     * @summary Exchange Azure AD auth code for internal JWT (Web App flow)
+     * @param {object} body 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthenticationApi
+     */
+    public authControllerAzureCallback(body: object, options?: RawAxiosRequestConfig) {
+        return AuthenticationApiFp(this.configuration).authControllerAzureCallback(body, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @summary Exchange Azure AD token for internal JWT
