@@ -8,8 +8,26 @@ import { AzureADCallback } from './components/AzureADCallback'
 import { AuthSelector } from './components/AuthSelector'
 import { AuthenticatedView } from './components/AuthenticatedView'
 import { useAuth } from './hooks/useAuth'
+import { ToastContainer, useToast } from './components/Toast'
 
-function AppContent(): React.JSX.Element {
+function App(): React.JSX.Element {
+  const { toasts, showToast, dismissToast } = useToast()
+  
+  return (
+    <BrowserRouter>
+      <ToastContainer messages={toasts} onDismiss={dismissToast} />
+      <Routes>
+        <Route path="/" element={<AppContent showToast={showToast} />} />
+        <Route path="/auth/callback" element={
+          <AzureADCallbackWrapper showToast={showToast} />
+        } />
+      </Routes>
+    </BrowserRouter>
+  )
+}
+
+// Update AppContent to receive showToast
+function AppContent({ showToast }: { showToast: (message: string, type: 'success' | 'error' | 'info') => void }): React.JSX.Element {
   const {
     isAuthenticated,
     user,
@@ -21,7 +39,19 @@ function AppContent(): React.JSX.Element {
     handleApiKeySuccess,
     handleLogout,
   } = useAuth()
-
+  
+  // Wrap handleLoginSuccess to show toast
+  const handleLoginSuccessWithToast = async (token: string) => {
+    await handleLoginSuccess(token)
+    showToast('Successfully logged in!', 'success')
+  }
+  
+  // Wrap handleApiKeySuccess to show toast
+  const handleApiKeySuccessWithToast = (apiKey: string) => {
+    handleApiKeySuccess(apiKey)
+    showToast('API key authenticated!', 'success')
+  }
+  
   if (loading) {
     return <div>Loading...</div>
   }
@@ -31,11 +61,11 @@ function AppContent(): React.JSX.Element {
       <>
         <AuthSelector loginMode={loginMode} onModeChange={setLoginMode} />
         {loginMode === 'apikey' ? (
-          <ApiKeyForm onApiKeySuccess={handleApiKeySuccess} />
+          <ApiKeyForm onApiKeySuccess={handleApiKeySuccessWithToast} />
         ) : loginMode === 'jwt' ? (
-          <LoginForm onLoginSuccess={handleLoginSuccess} />
+          <LoginForm onLoginSuccess={handleLoginSuccessWithToast} />
         ) : (
-          <AzureADForm onLoginSuccess={handleLoginSuccess} />
+          <AzureADForm onLoginSuccess={handleLoginSuccessWithToast} />
         )}
         <ConnectionStatus />
       </>
@@ -54,23 +84,16 @@ function AppContent(): React.JSX.Element {
   )
 }
 
-function App(): React.JSX.Element {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<AppContent />} />
-        <Route path="/auth/callback" element={
-          <AzureADCallbackWrapper />
-        } />
-      </Routes>
-    </BrowserRouter>
-  )
-}
-
 // Wrapper component to handle the callback with auth context
-function AzureADCallbackWrapper(): React.JSX.Element {
+function AzureADCallbackWrapper({ showToast }: { showToast: (message: string, type: 'success' | 'error' | 'info') => void }): React.JSX.Element {
   const { handleLoginSuccess } = useAuth()
-  return <AzureADCallback onLoginSuccess={handleLoginSuccess} />
+  
+  const handleLoginSuccessWithToast = async (token: string) => {
+    await handleLoginSuccess(token)
+    showToast('Successfully logged in with Azure AD!', 'success')
+  }
+  
+  return <AzureADCallback onLoginSuccess={handleLoginSuccessWithToast} />
 }
 
 export default App

@@ -33,13 +33,43 @@ export class AuthService {
   }
 
   public async setToken(token: string): Promise<void> {
-    this.token = token;
+    console.log('📝 Setting token:', token.substring(0, 20) + '...');
+    
+    // Decode and log token payload
     try {
+      const parts = token.split('.');
+      const payload = JSON.parse(atob(parts[1]));
+      console.log('🔍 Token payload:', {
+        sub: payload.sub,
+        email: payload.email,
+        projectId: payload.projectId,
+        permissions: payload.permissions,
+        exp: new Date(payload.exp * 1000).toISOString(),
+        iat: new Date(payload.iat * 1000).toISOString()
+      });
+    } catch (e) {
+      console.error('Failed to decode token:', e);
+    }
+    
+    this.token = token;
+    // Store token in localStorage so API client can use it
+    localStorage.setItem('authToken', token);
+    console.log('💾 Token saved to localStorage');
+    
+    try {
+      console.log('📞 Calling /auth/profile...');
       // Get user profile from API
       const response = await authApi.authControllerGetProfile();
+      console.log('✅ Profile response:', response.data);
       this.currentUser = response.data.data || null;
-    } catch (error) {
-      console.error('Failed to get user profile:', error);
+    } catch (error: any) {
+      console.error('❌ Failed to get user profile:', {
+        message: error.message,
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        data: error.response?.data,
+        headers: error.response?.headers
+      });
       // Clear invalid token
       this.logout();
       throw error;

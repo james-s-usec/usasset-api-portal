@@ -5,7 +5,12 @@ type ConnectionStatusType = 'checking' | 'connected' | 'error';
 const checkApiConnection = async (): Promise<{ status: ConnectionStatusType; details: string }> => {
   try {
     const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3009/v1';
-    const response = await fetch(`${apiUrl}/health`);
+    const response = await fetch(`${apiUrl}/health`, {
+      credentials: 'include', // Include cookies for CORS
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
     
     if (response.ok) {
       await response.json(); // Verify response is valid JSON

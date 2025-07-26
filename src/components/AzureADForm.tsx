@@ -1,7 +1,4 @@
 import { useState } from 'react';
-import { PublicClientApplication } from '@azure/msal-browser';
-import { msalConfig, loginRequest } from '../config/azuread-config';
-import { authApi } from '../services/api-client';
 
 interface AzureADFormProps {
   onLoginSuccess: (token: string) => Promise<void>;
@@ -16,32 +13,27 @@ export const AzureADForm = ({ onLoginSuccess }: AzureADFormProps): React.JSX.Ele
     setError(null);
 
     try {
-      // Initialize MSAL instance
-      const msalInstance = new PublicClientApplication(msalConfig);
-      await msalInstance.initialize();
-
-      // Check if there's an interaction in progress
-      const activeAccount = msalInstance.getActiveAccount();
-      const accounts = msalInstance.getAllAccounts();
+      // For server-side (Web App) flow, we don't use MSAL - just redirect to Azure AD
+      const tenantId = import.meta.env.VITE_AZURE_AD_TENANT_ID;
+      const clientId = import.meta.env.VITE_AZURE_AD_CLIENT_ID;
+      const redirectUri = import.meta.env.VITE_AZURE_AD_REDIRECT_URI || `${window.location.origin}/auth/callback`;
       
-      if (!activeAccount && accounts.length === 0) {
-        // No active session, proceed with login
-        await msalInstance.loginRedirect(loginRequest);
-      } else {
-        // Clear any existing sessions first
-        await msalInstance.clearCache();
-        await msalInstance.loginRedirect(loginRequest);
-      }
-    } catch (msalError: any) {
-      console.error('Azure AD login error:', msalError);
+      // Build the Azure AD authorization URL
+      const authUrl = new URL(`https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/authorize`);
       
-      // Handle specific MSAL errors
-      if (msalError.errorCode === 'user_cancelled') {
-        setError('Login was cancelled.');
-      } else {
-        setError('Azure AD login failed. Please try again.');
-      }
-    } finally {
+      // Add required parameters for authorization code flow (without PKCE)
+      authUrl.searchParams.append('client_id', clientId);
+      authUrl.searchParams.append('response_type', 'code');
+      authUrl.searchParams.append('redirect_uri', redirectUri);
+      authUrl.searchParams.append('response_mode', 'fragment'); // Return code in URL fragment
+      authUrl.searchParams.append('scope', 'openid profile email User.Read');
+      authUrl.searchParams.append('state', crypto.randomUUID()); // For CSRF protection
+      
+      // Redirect to Azure AD login
+      window.location.href = authUrl.toString();
+    } catch (error: any) {
+      console.error('Azure AD login error:', error);
+      setError('Failed to initiate Azure AD login. Please try again.');
       setLoading(false);
     }
   };

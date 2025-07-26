@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure AD Auth Debug</title>
+    <style>
+        body {
+            font-family: monospace;
+            background: #1a1a1a;
+            color: #0f0;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section {
+            background: #000;
+            border: 1px solid #0f0;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .title {
+            color: #0ff;
+            font-size: 18px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        .data {
+            background: #111;
+            padding: 10px;
+            border-radius: 3px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .error {
+            color: #f00;
+        }
+        .success {
+            color: #0f0;
+        }
+        .warning {
+            color: #ff0;
+        }
+        button {
+            background: #0f0;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: monospace;
+            font-weight: bold;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0ff;
+        }
+        .side-by-side {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .log-entry {
+            border-bottom: 1px solid #333;
+            padding: 5px 0;
+            margin: 5px 0;
+        }
+        .timestamp {
+            color: #666;
+            font-size: 12px;
+        }
+        input[type="text"] {
+            background: #111;
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 5px;
+            width: 100%;
+            margin: 5px 0;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Azure AD Authentication Debug Tool</h1>
+        
+        <div class="section">
+            <div class="title">Current URL Info</div>
+            <div class="data" id="urlInfo"></div>
+        </div>
+
+        <div class="section">
+            <div class="title">Extracted Data</div>
+            <div class="data" id="extractedData"></div>
+        </div>
+
+        <div class="section">
+            <div class="title">Environment Configuration</div>
+            <div class="data" id="envConfig">
+                <div>API URL: <input type="text" id="apiUrl" value="http://localhost:3009/v1" /></div>
+                <div>Project ID: <input type="text" id="projectId" value="demo-project-id" /></div>
+                <div>Redirect URI: <input type="text" id="redirectUri" value="http://localhost:5173/auth/callback" /></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="title">Test Actions</div>
+            <button onclick="testHealthEndpoint()">Test Health Endpoint</button>
+            <button onclick="testCallbackEndpoint()">Test Callback Endpoint</button>
+            <button onclick="clearLogs()">Clear Logs</button>
+        </div>
+
+        <div class="side-by-side">
+            <div class="section">
+                <div class="title">Request Details</div>
+                <div class="data" id="requestDetails"></div>
+            </div>
+            <div class="section">
+                <div class="title">Response Details</div>
+                <div class="data" id="responseDetails"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="title">Debug Log</div>
+            <div class="data" id="debugLog"></div>
+        </div>
+
+        <div class="section">
+            <div class="title">Backend Expected Format</div>
+            <div class="data">
+Expected POST body for /v1/auth/azure/callback:
+{
+  "code": "authorization_code_from_azure",
+  "redirectUri": "http://localhost:5173/auth/callback",
+  "projectId": "valid-uuid-format"
+}
+
+Validation Rules:
+- code: Required, string
+- redirectUri: Required, valid URI format
+- projectId: Required, valid UUID format
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize on page load
+        window.onload = function() {
+            analyzeCurrentURL();
+        };
+
+        function log(message, type = 'info') {
+            const logDiv = document.getElementById('debugLog');
+            const timestamp = new Date().toISOString();
+            const colorClass = type === 'error' ? 'error' : type === 'success' ? 'success' : type === 'warning' ? 'warning' : '';
+            
+            logDiv.innerHTML += `<div class="log-entry">
+                <span class="timestamp">[${timestamp}]</span>
+                <span class="${colorClass}">${message}</span>
+            </div>`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        function clearLogs() {
+            document.getElementById('debugLog').innerHTML = '';
+            document.getElementById('requestDetails').innerHTML = '';
+            document.getElementById('responseDetails').innerHTML = '';
+            log('Logs cleared', 'info');
+        }
+
+        function analyzeCurrentURL() {
+            const url = window.location.href;
+            const urlObj = new URL(url);
+            
+            // Parse both query params and hash fragment
+            const queryParams = new URLSearchParams(urlObj.search);
+            const hashParams = new URLSearchParams(urlObj.hash.substring(1));
+            
+            // Extract auth code from either location
+            const authCode = queryParams.get('code') || hashParams.get('code');
+            const error = queryParams.get('error') || hashParams.get('error');
+            const errorDesc = queryParams.get('error_description') || hashParams.get('error_description');
+            const state = queryParams.get('state') || hashParams.get('state');
+            
+            // Display URL info
+            document.getElementById('urlInfo').innerHTML = `
+Full URL: ${url}
+Protocol: ${urlObj.protocol}
+Host: ${urlObj.host}
+Pathname: ${urlObj.pathname}
+Search: ${urlObj.search}
+Hash: ${urlObj.hash}
+
+Query Parameters:
+${Array.from(queryParams.entries()).map(([k, v]) => `  ${k}: ${v}`).join('\n') || '  (none)'}
+
+Hash Parameters:
+${Array.from(hashParams.entries()).map(([k, v]) => `  ${k}: ${v.substring(0, 50)}...`).join('\n') || '  (none)'}
+            `;
+            
+            // Display extracted data
+            document.getElementById('extractedData').innerHTML = `
+Auth Code Found: ${authCode ? 'YES' : 'NO'}
+Auth Code Location: ${queryParams.get('code') ? 'Query Parameters' : hashParams.get('code') ? 'Hash Fragment' : 'Not Found'}
+Auth Code Length: ${authCode ? authCode.length : 0}
+Error: ${error || '(none)'}
+Error Description: ${errorDesc || '(none)'}
+State: ${state ? 'Present' : 'Not Present'}
+            `;
+            
+            if (authCode) {
+                log(`Found auth code in ${queryParams.get('code') ? 'query parameters' : 'hash fragment'}`, 'success');
+                log(`Auth code length: ${authCode.length} characters`, 'info');
+            } else if (error) {
+                log(`Azure AD returned error: ${error} - ${errorDesc}`, 'error');
+            } else {
+                log('No auth code or error found in URL', 'warning');
+            }
+        }
+
+        async function testHealthEndpoint() {
+            const apiUrl = document.getElementById('apiUrl').value;
+            const url = `${apiUrl}/health`;
+            
+            log(`Testing health endpoint: ${url}`, 'info');
+            
+            document.getElementById('requestDetails').innerHTML = `
+Method: GET
+URL: ${url}
+Headers:
+  Accept: application/json
+            `;
+            
+            try {
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                document.getElementById('responseDetails').innerHTML = `
+Status: ${response.status} ${response.statusText}
+Headers:
+${Array.from(response.headers.entries()).map(([k, v]) => `  ${k}: ${v}`).join('\n')}
+
+Body:
+${JSON.stringify(data, null, 2)}
+                `;
+                
+                if (response.ok) {
+                    log('Health check passed', 'success');
+                } else {
+                    log(`Health check failed: ${response.status}`, 'error');
+                }
+            } catch (error) {
+                document.getElementById('responseDetails').innerHTML = `Error: ${error.message}`;
+                log(`Health check error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testCallbackEndpoint() {
+            const apiUrl = document.getElementById('apiUrl').value;
+            const projectId = document.getElementById('projectId').value;
+            const redirectUri = document.getElementById('redirectUri').value;
+            const url = `${apiUrl}/auth/azure/callback`;
+            
+            // Get auth code from current URL
+            const urlObj = new URL(window.location.href);
+            const queryParams = new URLSearchParams(urlObj.search);
+            const hashParams = new URLSearchParams(urlObj.hash.substring(1));
+            const authCode = queryParams.get('code') || hashParams.get('code');
+            
+            if (!authCode) {
+                log('No auth code found in URL. Please navigate here from Azure AD callback.', 'error');
+                return;
+            }
+            
+            const requestBody = {
+                code: authCode,
+                redirectUri: redirectUri,
+                projectId: projectId
+            };
+            
+            log(`Testing callback endpoint: ${url}`, 'info');
+            log(`Request body: ${JSON.stringify(requestBody, null, 2)}`, 'info');
+            
+            document.getElementById('requestDetails').innerHTML = `
+Method: POST
+URL: ${url}
+Headers:
+  Content-Type: application/json
+  Accept: application/json
+
+Body:
+${JSON.stringify(requestBody, null, 2)}
+
+Validation Check:
+  - code: ${authCode ? '✓ Present' : '✗ Missing'} (${authCode ? authCode.length + ' chars' : ''})
+  - redirectUri: ${redirectUri ? '✓ Present' : '✗ Missing'} (${redirectUri})
+  - projectId: ${projectId ? '✓ Present' : '✗ Missing'} (${projectId})
+  - projectId format: ${isValidUUID(projectId) ? '✓ Valid UUID' : '✗ Invalid UUID format'}
+            `;
+            
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+                
+                const data = await response.json();
+                
+                document.getElementById('responseDetails').innerHTML = `
+Status: ${response.status} ${response.statusText}
+Headers:
+${Array.from(response.headers.entries()).map(([k, v]) => `  ${k}: ${v}`).join('\n')}
+
+Body:
+${JSON.stringify(data, null, 2)}
+
+Analysis:
+${response.status === 400 ? '- 400 Bad Request usually means validation failed' : ''}
+${response.status === 401 ? '- 401 Unauthorized means auth code is invalid or expired' : ''}
+${response.status === 500 ? '- 500 Internal Server Error - check backend logs' : ''}
+${response.status === 200 ? '✓ Success! Token exchange completed' : ''}
+                `;
+                
+                if (response.ok) {
+                    log('Callback endpoint test passed', 'success');
+                    if (data.data && data.data.accessToken) {
+                        log(`Received JWT token: ${data.data.accessToken.substring(0, 50)}...`, 'success');
+                    }
+                } else {
+                    log(`Callback endpoint test failed: ${response.status}`, 'error');
+                    if (data.message) {
+                        log(`Error message: ${data.message}`, 'error');
+                    }
+                }
+            } catch (error) {
+                document.getElementById('responseDetails').innerHTML = `Error: ${error.message}`;
+                log(`Callback endpoint error: ${error.message}`, 'error');
+            }
+        }
+
+        function isValidUUID(uuid) {
+            const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+            return uuidRegex.test(uuid);
+        }
+    </script>
+</body>
+</html>

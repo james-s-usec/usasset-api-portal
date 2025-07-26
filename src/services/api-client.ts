@@ -1,11 +1,15 @@
-import { Configuration, AuthenticationApi, UsersApi, ProjectsApi } from '../api-sdk';
+import { Configuration } from '../api-sdk/dist/configuration.js';
+import { AuthenticationApi, UsersApi, ProjectsApi } from '../api-sdk/dist/api.js';
+import type { AxiosInstance } from 'axios';
 
 // Create configuration with API key support
 const config = new Configuration({
   basePath: import.meta.env.VITE_API_URL || 'http://localhost:3009/v1',
   accessToken: (): string => {
     // Get JWT token from localStorage
-    return localStorage.getItem('authToken') || '';
+    const token = localStorage.getItem('authToken') || '';
+    console.log('🔑 API Client getting token:', token ? `${token.substring(0, 20)}...` : 'NO TOKEN');
+    return token;
   },
   baseOptions: {
     headers: {
