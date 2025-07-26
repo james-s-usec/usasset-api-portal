@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react';
-import { PublicClientApplication } from '@azure/msal-browser';
-import { msalConfig } from '../config/azuread-config';
 import { authApi } from '../services/api-client';
 import { useNavigate } from 'react-router-dom';
 
@@ -40,34 +38,34 @@ export const AzureADCallback = ({ onLoginSuccess }: AzureADCallbackProps): React
           throw new Error('No authorization code found in callback URL');
         }
 
-        // Initialize MSAL instance
-        const msalInstance = new PublicClientApplication(msalConfig);
-        await msalInstance.initialize();
-        
-        // Handle the redirect promise to complete MSAL's internal state
-        await msalInstance.handleRedirectPromise();
-
-        // Now exchange the auth code with our backend
+        // Server-side (Web App) flow - just send the auth code to our backend
+        // The backend will use client_secret to exchange it for tokens
         console.log('Exchanging auth code with backend...');
         
         const apiResponse = await authApi.authControllerAzureCallback({
           code: authCode,
-          redirectUri: import.meta.env.VITE_AZURE_AD_REDIRECT_URI || `${window.location.origin}/auth/callback`,
-          projectId: import.meta.env.VITE_DEFAULT_PROJECT_ID || 'demo-project-id'
+          redirectUri: import.meta.env.VITE_AZURE_AD_REDIRECT_URI || `${window.location.origin}/auth/callback`
+          // No projectId - backend will use default project 00000000-0000-0000-0000-000000000000
+          // No codeVerifier - backend uses client_secret instead
         });
 
         console.log('Backend response:', apiResponse.data);
+        console.log('🎯 Access token received:', apiResponse.data.data?.accessToken?.substring(0, 20) + '...');
 
         if (apiResponse.data.data?.accessToken) {
           await onLoginSuccess(apiResponse.data.data.accessToken);
-          navigate('/'); // Redirect to home after successful login
+          navigate('/dashboard'); // Redirect to dashboard after successful login
         } else {
           throw new Error('No access token received from server');
         }
 
       } catch (error: any) {
         console.error('Azure AD callback error:', error);
-        setError(error.message || 'Authentication failed. Please try again.');
+        if (error.response) {
+          console.error('Error response:', error.response.data);
+          console.error('Error status:', error.response.status);
+        }
+        setError(error.response?.data?.message || error.message || 'Authentication failed. Please try again.');
       } finally {
         setProcessing(false);
       }

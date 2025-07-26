@@ -9,6 +9,7 @@ import { AuthSelector } from './components/AuthSelector'
 import { AuthenticatedView } from './components/AuthenticatedView'
 import { useAuth } from './hooks/useAuth'
 import { ToastContainer, useToast } from './components/Toast'
+import { Dashboard } from './pages/Dashboard'
 
 function App(): React.JSX.Element {
   const { toasts, showToast, dismissToast } = useToast()
@@ -18,6 +19,7 @@ function App(): React.JSX.Element {
       <ToastContainer messages={toasts} onDismiss={dismissToast} />
       <Routes>
         <Route path="/" element={<AppContent showToast={showToast} />} />
+        <Route path="/dashboard" element={<DashboardWrapper showToast={showToast} />} />
         <Route path="/auth/callback" element={
           <AzureADCallbackWrapper showToast={showToast} />
         } />
@@ -72,16 +74,8 @@ function AppContent({ showToast }: { showToast: (message: string, type: 'success
     )
   }
 
-  return (
-    <>
-      <AuthenticatedView 
-        user={user} 
-        authMethod={authMethod} 
-        onLogout={handleLogout} 
-      />
-      <ConnectionStatus />
-    </>
-  )
+  // Redirect to dashboard when authenticated
+  return <Navigate to="/dashboard" replace />
 }
 
 // Wrapper component to handle the callback with auth context
@@ -94,6 +88,22 @@ function AzureADCallbackWrapper({ showToast }: { showToast: (message: string, ty
   }
   
   return <AzureADCallback onLoginSuccess={handleLoginSuccessWithToast} />
+}
+
+// Dashboard wrapper with auth check
+function DashboardWrapper({ showToast }: { showToast: (message: string, type: 'success' | 'error' | 'info') => void }): React.JSX.Element {
+  const { isAuthenticated } = useAuth()
+  
+  if (!isAuthenticated) {
+    return <Navigate to="/" replace />
+  }
+  
+  return (
+    <>
+      <Dashboard />
+      <ConnectionStatus />
+    </>
+  )
 }
 
 export default App
