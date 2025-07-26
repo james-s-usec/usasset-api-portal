@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { projectsApi, usersApi } from '../services/api-client';
 import { useAuth } from '../hooks/useAuth';
 
@@ -20,7 +20,7 @@ export function Dashboard(): React.JSX.Element {
   useEffect(() => {
     let mounted = true;
     
-    const loadData = async () => {
+    const loadData = async (): Promise<void> => {
       if (mounted) {
         await loadDashboardData();
       }
@@ -31,9 +31,9 @@ export function Dashboard(): React.JSX.Element {
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [loadDashboardData]);
 
-  const loadDashboardData = async (): Promise<void> => {
+  const loadDashboardData = useCallback(async (): Promise<void> => {
     // Don't try to load if we don't have authentication
     if (!isAuthenticated) {
       console.warn('No authentication found, skipping dashboard load');
@@ -80,7 +80,7 @@ export function Dashboard(): React.JSX.Element {
     } finally {
       setLoading(false);
     }
-  };
+  }, [isAuthenticated, currentUser]);
 
   const containerStyle: React.CSSProperties = {
     padding: '40px',

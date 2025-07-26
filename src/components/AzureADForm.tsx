@@ -31,7 +31,7 @@ export const AzureADForm = ({ onLoginSuccess: _onLoginSuccess }: AzureADFormProp
       
       // Redirect to Azure AD login
       window.location.href = authUrl.toString();
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Azure AD login error:', error);
       setError('Failed to initiate Azure AD login. Please try again.');
       setLoading(false);

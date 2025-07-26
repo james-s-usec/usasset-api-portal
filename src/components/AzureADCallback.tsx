@@ -66,13 +66,21 @@ export const AzureADCallback = ({ onLoginSuccess }: AzureADCallbackProps): React
           throw new Error('No access token received from server');
         }
 
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error('Azure AD callback error:', error);
-        if (error.response) {
-          console.error('Error response:', error.response.data);
-          console.error('Error status:', error.response.status);
+        let errorMessage = 'Authentication failed. Please try again.';
+        if (error instanceof Error) {
+          errorMessage = error.message;
         }
-        setError(error.response?.data?.message || error.message || 'Authentication failed. Please try again.');
+        if (error && typeof error === 'object' && 'response' in error) {
+          const responseError = error as { response?: { data?: { message?: string }; status?: number } };
+          if (responseError.response) {
+            console.error('Error response:', responseError.response.data);
+            console.error('Error status:', responseError.response.status);
+            errorMessage = responseError.response.data?.message || errorMessage;
+          }
+        }
+        setError(errorMessage);
       } finally {
         setProcessing(false);
       }

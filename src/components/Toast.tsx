@@ -1,10 +1,5 @@
-import { useState, useEffect } from 'react';
-
-export interface ToastMessage {
-  id: string;
-  message: string;
-  type: 'success' | 'error' | 'info';
-}
+import { useEffect } from 'react';
+import type { ToastMessage } from '../hooks/useToast';
 
 interface ToastProps {
   message: ToastMessage;
@@ -96,24 +91,4 @@ export const ToastContainer = ({ messages, onDismiss }: ToastContainerProps): Re
       ))}
     </div>
   );
-};
-
-// Hook for managing toasts
-export const useToast = () => {
-  const [toasts, setToasts] = useState<ToastMessage[]>([]);
-
-  const showToast = (message: string, type: ToastMessage['type'] = 'info') => {
-    const newToast: ToastMessage = {
-      id: Date.now().toString(),
-      message,
-      type
-    };
-    setToasts(prev => [...prev, newToast]);
-  };
-
-  const dismissToast = (id: string) => {
-    setToasts(prev => prev.filter(toast => toast.id !== id));
-  };
-
-  return { toasts, showToast, dismissToast };
 };

@@ -1,5 +1,5 @@
 # Portal Status Report
-Generated: Sat Jul 26 08:47:54 MDT 2025
+Generated: Sat Jul 26 08:56:14 MDT 2025
 Working Directory: /home/swansonj/projects/usasset-api-portal
 
 # 🌐 Portal Status Overview
@@ -19,28 +19,30 @@ Working Directory: /home/swansonj/projects/usasset-api-portal
 ## Log Files Status
 
 ✅ 🔍 ESLint Results
-   📁 logs/lint-results.log (6775 bytes, modified: 2025-07-26 08:47:46)
+   📁 logs/lint-results.log (6922 bytes, modified: 2025-07-26 08:56:07)
 
 ✅ 📘 TypeScript Check Results
-   📁 logs/typecheck-results.log (54 bytes, modified: 2025-07-26 08:47:47)
+   📁 logs/typecheck-results.log (54 bytes, modified: 2025-07-26 08:56:07)
 
 ⚠️  🧪 Test Results
    📁 logs/test-results.log (not found - run npm run status:generate)
 
 ✅ 🏗️ Build Results
-   📁 logs/build-results.log (336 bytes, modified: 2025-07-26 08:47:48)
+   📁 logs/build-results.log (387 bytes, modified: 2025-07-26 08:56:13)
 
 ## Quick Summary
 
 ### 🔍 Code Quality Summary
 - ❌ 1 errors found
-- ⚠️  38 warnings found
+- ⚠️  39 warnings found
 
 ### 📘 TypeScript Summary
 - ⚠️  TypeScript check status unclear
 
 ### 🏗️ Build Summary
-- ❌ Build failed
+- ✅ Build successful
+- ⏱️  ✓ built in 1.58s
+- 📦 Bundle sizes:
 
 ## Build Output
 

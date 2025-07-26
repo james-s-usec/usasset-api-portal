@@ -24,11 +24,12 @@ export const getUserProfile = async (_token: string): Promise<ApiResponse<User>>
       success: true,
       data: response.data.data || undefined
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Failed to get user profile:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Failed to get user profile';
     return {
       success: false,
-      error: error.message || 'Failed to get user profile'
+      error: errorMessage
     };
   }
 };
@@ -41,11 +42,16 @@ export const exchangeAzureCode = async (code: string): Promise<ApiResponse<Azure
       success: true,
       data: response.data.data as AzureTokenResponse
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Failed to exchange Azure code:', error);
+    let errorMessage = 'Azure authentication failed';
+    if (error && typeof error === 'object' && 'response' in error) {
+      const responseError = error as { response?: { data?: { message?: string } } };
+      errorMessage = responseError.response?.data?.message || errorMessage;
+    }
     return {
       success: false,
-      error: error.response?.data?.message || 'Azure authentication failed'
+      error: errorMessage
     };
   }
 };

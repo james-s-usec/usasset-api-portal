@@ -7,7 +7,8 @@ import { AzureADForm } from './components/AzureADForm'
 import { AzureADCallback } from './components/AzureADCallback'
 import { AuthSelector } from './components/AuthSelector'
 import { useAuth } from './hooks/useAuth'
-import { ToastContainer, useToast } from './components/Toast'
+import { ToastContainer } from './components/Toast'
+import { useToast } from './hooks/useToast'
 import { Dashboard } from './pages/Dashboard'
 import { DebugApiKey } from './components/DebugApiKey'
 import { DebugProvider } from './contexts/DebugContext'
@@ -47,7 +48,7 @@ function AppContent({ showToast }: { showToast: (message: string, type: 'success
   } = useAuth()
   
   // Wrap handleLoginSuccess to show toast
-  const handleLoginSuccessWithToast = async (token: string) => {
+  const handleLoginSuccessWithToast = async (token: string): Promise<void> => {
     const success = await handleLoginSuccess(token)
     if (success) {
       showToast('Successfully logged in!', 'success')
@@ -57,7 +58,7 @@ function AppContent({ showToast }: { showToast: (message: string, type: 'success
   }
   
   // Wrap handleApiKeySuccess to show toast
-  const handleApiKeySuccessWithToast = (apiKey: string) => {
+  const handleApiKeySuccessWithToast = (apiKey: string): void => {
     handleApiKeySuccess(apiKey)
     showToast('API key authenticated!', 'success')
   }
@@ -90,7 +91,7 @@ function AppContent({ showToast }: { showToast: (message: string, type: 'success
 function AzureADCallbackWrapper({ showToast }: { showToast: (message: string, type: 'success' | 'error' | 'info') => void }): React.JSX.Element {
   const { handleLoginSuccess } = useAuth()
   
-  const handleLoginSuccessWithToast = async (token: string) => {
+  const handleLoginSuccessWithToast = async (token: string): Promise<boolean> => {
     const success = await handleLoginSuccess(token)
     if (success) {
       showToast('Successfully logged in with Azure AD!', 'success')

@@ -1,15 +1,12 @@
-// Re-export useAuth from AuthContext for backward compatibility
-export { useAuth } from '../contexts/AuthContext';
+import { useContext } from 'react';
+import { AuthContext } from '../contexts/AuthContext';
+import type { AuthContextType } from '../contexts/AuthContext';
 
-// Also export the hook return type for components that need it
-export interface UseAuthReturn {
-  isAuthenticated: boolean;
-  user: any | null;
-  loading: boolean;
-  authMethod: 'jwt' | 'apikey' | 'none';
-  loginMode: 'jwt' | 'apikey' | 'azuread';
-  setLoginMode: (mode: 'jwt' | 'apikey' | 'azuread') => void;
-  handleLoginSuccess: (token: string) => Promise<boolean>;
-  handleApiKeySuccess: (apiKey: string) => void;
-  handleLogout: () => void;
-}
+// Hook to use auth context
+export const useAuth = (): AuthContextType => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+};

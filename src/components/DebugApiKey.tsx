@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { authStorage } from '../utils/auth-storage';
 import { useAuth } from '../hooks/useAuth';
 import { useDebug } from '../contexts/DebugContext';
@@ -6,13 +6,31 @@ import { useDebug } from '../contexts/DebugContext';
 export function DebugApiKey(): React.JSX.Element {
   const { debugMode, setDebugMode } = useDebug();
   const [apiKey, setApiKeyInput] = useState('test-key-123');
-  const [storageInfo, setStorageInfo] = useState<any>({});
+  const [storageInfo, setStorageInfo] = useState<{
+    apiKey: string | null;
+    authToken: string | null;
+    authState: {
+      isAuthenticated: boolean;
+      authMethod: string;
+      user: unknown;
+    };
+    timestamp: string;
+  }>({
+    apiKey: null,
+    authToken: null,
+    authState: {
+      isAuthenticated: false,
+      authMethod: 'none',
+      user: null
+    },
+    timestamp: new Date().toISOString()
+  });
   const [flowStep, setFlowStep] = useState(0);
   const [flowResults, setFlowResults] = useState<string[]>([]);
   
   const auth = useAuth();
 
-  const updateStorageInfo = () => {
+  const updateStorageInfo = useCallback((): void => {
     setStorageInfo({
       apiKey: localStorage.getItem('apiKey'),
       authToken: localStorage.getItem('authToken'),
@@ -23,17 +41,17 @@ export function DebugApiKey(): React.JSX.Element {
       },
       timestamp: new Date().toISOString()
     });
-  };
+  }, [auth.isAuthenticated, auth.authMethod, auth.user]);
 
   useEffect(() => {
     updateStorageInfo();
-  }, [auth.isAuthenticated, auth.authMethod]);
+  }, [updateStorageInfo]);
 
-  const addResult = (message: string) => {
+  const addResult = (message: string): void => {
     setFlowResults(prev => [...prev, `[${new Date().toLocaleTimeString()}] ${message}`]);
   };
 
-  const runCompleteFlow = async () => {
+  const runCompleteFlow = async (): Promise<void> => {
     setFlowResults([]);
     setFlowStep(1);
     
@@ -66,7 +84,7 @@ export function DebugApiKey(): React.JSX.Element {
     addResult('Flow complete!');
   };
 
-  const handleTestRequest = async () => {
+  const handleTestRequest = async (): Promise<void> => {
     addResult('Testing API request...');
     const apiKeyFromStorage = localStorage.getItem('apiKey');
     addResult(`Using API key from storage: ${apiKeyFromStorage}`);

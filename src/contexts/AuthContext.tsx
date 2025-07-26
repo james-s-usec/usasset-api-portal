@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
+import React, { createContext, useState, useEffect, useCallback, type ReactNode } from 'react';
 import { ApiClient } from '../api/api-client';
 import type { User } from '../types/api-types';
 import { authStorage } from '../utils/auth-storage';
@@ -18,7 +18,7 @@ interface AuthState {
   error: string | null;
 }
 
-interface AuthContextType extends AuthState {
+export interface AuthContextType extends AuthState {
   login: (token: string) => Promise<boolean>;
   logout: () => void;
   setApiKey: (key: string) => void;
@@ -49,21 +49,15 @@ const defaultState: AuthState = {
 // Create context
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Hook to use auth context
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};
+// Export for use in hook file
+export { AuthContext };
 
 // Provider component
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [state, setState] = useState<AuthState>(defaultState);
 
   // Simple state updater
-  const updateState = (updates: Partial<AuthState>) => {
+  const updateState = (updates: Partial<AuthState>): void => {
     setState(prev => ({ ...prev, ...updates }));
   };
 
@@ -81,52 +75,38 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
-  // Check JWT token
-  const checkJwtToken = async (): Promise<boolean> => {
-    const token = authStorage.getToken();
-    if (!token) return false;
-
-    const user = await loadUserProfile(token);
-    if (user) {
-      updateState({
-        isAuthenticated: true,
-        user,
-        token,
-        authMethod: 'jwt',
-        loading: false
-      });
-      return true;
-    }
-
-    authStorage.clearToken();
-    return false;
-  };
-
-  // Check API key
-  const checkApiKey = (): boolean => {
-    const apiKey = authStorage.getApiKey();
-    if (!apiKey) return false;
-
-    updateState({
-      isAuthenticated: true,
-      apiKey,
-      authMethod: 'apikey',
-      loading: false
-    });
-    return true;
-  };
-
   // Check existing authentication
   const checkExistingAuth = useCallback(async () => {
     updateState({ loading: true, error: null });
     
     // Check JWT first
-    const hasJwt = await checkJwtToken();
-    if (hasJwt) return;
+    const token = authStorage.getToken();
+    if (token) {
+      const user = await loadUserProfile(token);
+      if (user) {
+        updateState({
+          isAuthenticated: true,
+          user,
+          token,
+          authMethod: 'jwt',
+          loading: false
+        });
+        return;
+      }
+      authStorage.clearToken();
+    }
 
     // Then check API key
-    const hasApiKey = checkApiKey();
-    if (hasApiKey) return;
+    const apiKey = authStorage.getApiKey();
+    if (apiKey) {
+      updateState({
+        isAuthenticated: true,
+        apiKey,
+        authMethod: 'apikey',
+        loading: false
+      });
+      return;
+    }
 
     // No auth found
     updateState({ isAuthenticated: false, loading: false });
@@ -228,7 +208,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   // Check auth on mount
   useEffect(() => {
     checkExistingAuth();
-  }, []);
+  }, [checkExistingAuth]);
 
   // Context value
   const contextValue: AuthContextType = {
