@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { authApi, setAuthToken } from '../services/api-client';
 
 interface LoginFormProps {
-  onLoginSuccess: (token: string) => void;
+  onLoginSuccess: (token: string) => Promise<void>;
 }
 
 const inputStyle = {
@@ -99,7 +99,7 @@ export const LoginForm = ({ onLoginSuccess }: LoginFormProps): React.JSX.Element
       
       if (token) {
         setAuthToken(token);
-        onLoginSuccess(token);
+        await onLoginSuccess(token);
       } else {
         setError('No token received from server');
       }

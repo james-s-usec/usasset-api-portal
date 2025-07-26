@@ -58,6 +58,11 @@ export class AuthService {
     
     try {
       console.log('📞 Calling /auth/profile...');
+      console.log('🔍 Current token in localStorage:', localStorage.getItem('authToken') ? 'EXISTS' : 'MISSING');
+      
+      // Add a small delay to ensure token is available
+      await new Promise(resolve => setTimeout(resolve, 50));
+      
       // Get user profile from API
       const response = await authApi.authControllerGetProfile();
       console.log('✅ Profile response:', response.data);
@@ -68,10 +73,15 @@ export class AuthService {
         status: error.response?.status,
         statusText: error.response?.statusText,
         data: error.response?.data,
-        headers: error.response?.headers
+        headers: error.response?.headers,
+        config: {
+          url: error.config?.url,
+          headers: error.config?.headers,
+          baseURL: error.config?.baseURL
+        }
       });
-      // Clear invalid token
-      this.logout();
+      // Don't clear the token immediately - it might be a CORS issue
+      // this.logout();
       throw error;
     }
   }

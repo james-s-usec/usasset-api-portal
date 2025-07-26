@@ -9,7 +9,7 @@ interface UseAuthReturn {
   authMethod: 'jwt' | 'apikey' | 'none';
   loginMode: 'jwt' | 'apikey' | 'azuread';
   setLoginMode: (mode: 'jwt' | 'apikey' | 'azuread') => void;
-  handleLoginSuccess: (token: string) => Promise<void>;
+  handleLoginSuccess: (token: string) => Promise<boolean>;
   handleApiKeySuccess: (apiKey: string) => void;
   handleLogout: () => void;
 }
@@ -60,15 +60,17 @@ export const useAuth = (): UseAuthReturn => {
     setLoading(false);
   };
 
-  const handleLoginSuccess = async (token: string): Promise<void> => {
+  const handleLoginSuccess = async (token: string): Promise<boolean> => {
     try {
       await authService.setToken(token);
       const profile = authService.getCurrentUser();
       setUser(profile);
       setIsAuthenticated(true);
       setAuthMethod('jwt');
+      return true;
     } catch (error) {
       console.error('Failed to set authentication:', error);
+      return false;
     }
   };
 

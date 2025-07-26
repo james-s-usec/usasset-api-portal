@@ -3,7 +3,7 @@ import { authApi } from '../services/api-client';
 import { useNavigate } from 'react-router-dom';
 
 interface AzureADCallbackProps {
-  onLoginSuccess: (token: string) => Promise<void>;
+  onLoginSuccess: (token: string) => Promise<boolean>;
 }
 
 export const AzureADCallback = ({ onLoginSuccess }: AzureADCallbackProps): React.JSX.Element => {
@@ -53,8 +53,15 @@ export const AzureADCallback = ({ onLoginSuccess }: AzureADCallbackProps): React
         console.log('🎯 Access token received:', apiResponse.data.data?.accessToken?.substring(0, 20) + '...');
 
         if (apiResponse.data.data?.accessToken) {
-          await onLoginSuccess(apiResponse.data.data.accessToken);
-          navigate('/dashboard'); // Redirect to dashboard after successful login
+          const success = await onLoginSuccess(apiResponse.data.data.accessToken);
+          if (success) {
+            // Small delay to ensure state updates have propagated
+            setTimeout(() => {
+              navigate('/dashboard');
+            }, 100);
+          } else {
+            throw new Error('Failed to set authentication state');
+          }
         } else {
           throw new Error('No access token received from server');
         }

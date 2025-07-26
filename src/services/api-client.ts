@@ -9,13 +9,15 @@ const config = new Configuration({
     // Get JWT token from localStorage
     const token = localStorage.getItem('authToken') || '';
     console.log('🔑 API Client getting token:', token ? `${token.substring(0, 20)}...` : 'NO TOKEN');
+    console.log('🔍 Token check - localStorage has:', localStorage.getItem('authToken') ? 'TOKEN EXISTS' : 'NO TOKEN');
     return token;
   },
   baseOptions: {
     headers: {
       // Add API key if available
       'x-api-key': localStorage.getItem('apiKey') || '',
-    }
+    },
+    withCredentials: true, // Enable CORS credentials
   }
 });
 

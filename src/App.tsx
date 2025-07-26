@@ -44,8 +44,12 @@ function AppContent({ showToast }: { showToast: (message: string, type: 'success
   
   // Wrap handleLoginSuccess to show toast
   const handleLoginSuccessWithToast = async (token: string) => {
-    await handleLoginSuccess(token)
-    showToast('Successfully logged in!', 'success')
+    const success = await handleLoginSuccess(token)
+    if (success) {
+      showToast('Successfully logged in!', 'success')
+    } else {
+      showToast('Failed to authenticate', 'error')
+    }
   }
   
   // Wrap handleApiKeySuccess to show toast
@@ -83,8 +87,11 @@ function AzureADCallbackWrapper({ showToast }: { showToast: (message: string, ty
   const { handleLoginSuccess } = useAuth()
   
   const handleLoginSuccessWithToast = async (token: string) => {
-    await handleLoginSuccess(token)
-    showToast('Successfully logged in with Azure AD!', 'success')
+    const success = await handleLoginSuccess(token)
+    if (success) {
+      showToast('Successfully logged in with Azure AD!', 'success')
+    }
+    return success
   }
   
   return <AzureADCallback onLoginSuccess={handleLoginSuccessWithToast} />
