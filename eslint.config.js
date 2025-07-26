@@ -19,5 +19,18 @@ export default tseslint.config([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    rules: {
+      // Code complexity rules
+      'complexity': ['error', { max: 10 }],
+      'max-lines': ['error', { max: 400, skipComments: true, skipBlankLines: true }],
+      'max-lines-per-function': ['error', { max: 30, skipComments: true, skipBlankLines: true }],
+      'max-params': ['error', { max: 4 }],
+      
+      // TypeScript strict rules
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/explicit-function-return-type': 'error',
+      '@typescript-eslint/no-unused-vars': 'error',
+      '@typescript-eslint/explicit-member-accessibility': 'error',
+    },
   },
 ])

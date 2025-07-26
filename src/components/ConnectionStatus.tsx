@@ -1,50 +1,56 @@
 import { useState, useEffect } from 'react';
 
-export function ConnectionStatus() {
-  const [status, setStatus] = useState<'checking' | 'connected' | 'error'>('checking');
+type ConnectionStatusType = 'checking' | 'connected' | 'error';
+
+const checkApiConnection = async (): Promise<{ status: ConnectionStatusType; details: string }> => {
+  try {
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3009';
+    const response = await fetch(`${apiUrl}/v1/health`);
+    
+    if (response.ok) {
+      await response.json(); // Verify response is valid JSON
+      return { status: 'connected', details: `API: ${apiUrl}` };
+    } else {
+      return { status: 'error', details: `API returned ${response.status}` };
+    }
+  } catch (error) {
+    const details = error instanceof Error ? error.message : 'Connection failed';
+    return { status: 'error', details };
+  }
+};
+
+const getStatusColor = (status: ConnectionStatusType): string => {
+  switch (status) {
+    case 'connected': return '#4CAF50';
+    case 'error': return '#f44336';
+    default: return '#FFC107';
+  }
+};
+
+const getStatusText = (status: ConnectionStatusType): string => {
+  switch (status) {
+    case 'connected': return '● Connected';
+    case 'error': return '● Disconnected';
+    default: return '● Checking...';
+  }
+};
+
+export function ConnectionStatus(): React.JSX.Element {
+  const [status, setStatus] = useState<ConnectionStatusType>('checking');
   const [details, setDetails] = useState<string>('');
 
-  useEffect(() => {
+  const checkConnection = async (): Promise<void> => {
+    const result = await checkApiConnection();
+    setStatus(result.status);
+    setDetails(result.details);
+  };
+
+  useEffect((): (() => void) => {
     checkConnection();
     // Check every 30 seconds
     const interval = setInterval(checkConnection, 30000);
-    return () => clearInterval(interval);
+    return (): void => clearInterval(interval);
   }, []);
-
-  const checkConnection = async () => {
-    try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-      const response = await fetch(`${apiUrl}/v1/health`);
-      
-      if (response.ok) {
-        await response.json(); // Verify response is valid JSON
-        setStatus('connected');
-        setDetails(`API: ${apiUrl}`);
-      } else {
-        setStatus('error');
-        setDetails(`API returned ${response.status}`);
-      }
-    } catch (error) {
-      setStatus('error');
-      setDetails(error instanceof Error ? error.message : 'Connection failed');
-    }
-  };
-
-  const getStatusColor = () => {
-    switch (status) {
-      case 'connected': return '#4CAF50';
-      case 'error': return '#f44336';
-      default: return '#FFC107';
-    }
-  };
-
-  const getStatusText = () => {
-    switch (status) {
-      case 'connected': return '● Connected';
-      case 'error': return '● Disconnected';
-      default: return '● Checking...';
-    }
-  };
 
   return (
     <div style={{
@@ -59,8 +65,8 @@ export function ConnectionStatus() {
       boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
       zIndex: 1000
     }}>
-      <div style={{ color: getStatusColor(), fontWeight: 'bold' }}>
-        {getStatusText()}
+      <div style={{ color: getStatusColor(status), fontWeight: 'bold' }}>
+        {getStatusText(status)}
       </div>
       {details && (
         <div style={{ fontSize: '12px', marginTop: '4px', opacity: 0.8 }}>
