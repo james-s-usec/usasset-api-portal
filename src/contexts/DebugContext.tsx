@@ -1,12 +1,5 @@
-import { createContext, useContext, useState, type ReactNode } from 'react';
-
-interface DebugContextType {
-  debugMode: boolean;
-  setDebugMode: (enabled: boolean) => void;
-  debugLog: (...args: unknown[]) => void;
-}
-
-const DebugContext = createContext<DebugContextType | undefined>(undefined);
+import { useState, type ReactNode } from 'react';
+import { DebugContext } from './DebugContextValue';
 
 export function DebugProvider({ children }: { children: ReactNode }): React.JSX.Element {
   const [debugMode, setDebugMode] = useState(() => {
@@ -30,12 +23,4 @@ export function DebugProvider({ children }: { children: ReactNode }): React.JSX.
       {children}
     </DebugContext.Provider>
   );
-}
-
-export function useDebug(): DebugContextType {
-  const context = useContext(DebugContext);
-  if (!context) {
-    throw new Error('useDebug must be used within a DebugProvider');
-  }
-  return context;
 }

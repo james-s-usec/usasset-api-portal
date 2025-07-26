@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { authStorage } from '../utils/auth-storage';
 import { useAuth } from '../hooks/useAuth';
-import { useDebug } from '../contexts/DebugContext';
+import { useDebug } from '../hooks/useDebug';
 
 export function DebugApiKey(): React.JSX.Element {
   const { debugMode, setDebugMode } = useDebug();

@@ -17,22 +17,6 @@ export function Dashboard(): React.JSX.Element {
   const [loading, setLoading] = useState(true);
   const { user: currentUser, isAuthenticated } = useAuth();
 
-  useEffect(() => {
-    let mounted = true;
-    
-    const loadData = async (): Promise<void> => {
-      if (mounted) {
-        await loadDashboardData();
-      }
-    };
-    
-    loadData();
-    
-    return () => {
-      mounted = false;
-    };
-  }, [loadDashboardData]);
-
   const loadDashboardData = useCallback(async (): Promise<void> => {
     // Don't try to load if we don't have authentication
     if (!isAuthenticated) {
@@ -81,6 +65,22 @@ export function Dashboard(): React.JSX.Element {
       setLoading(false);
     }
   }, [isAuthenticated, currentUser]);
+
+  useEffect(() => {
+    let mounted = true;
+    
+    const loadData = async (): Promise<void> => {
+      if (mounted) {
+        await loadDashboardData();
+      }
+    };
+    
+    loadData();
+    
+    return () => {
+      mounted = false;
+    };
+  }, [loadDashboardData]);
 
   const containerStyle: React.CSSProperties = {
     padding: '40px',
