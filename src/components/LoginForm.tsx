@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { authApi, setAuthToken } from '../services/api-client';
+import { authApi } from '../services/api-client';
 
 interface LoginFormProps {
   onLoginSuccess: (token: string) => Promise<void>;
@@ -98,7 +98,6 @@ export const LoginForm = ({ onLoginSuccess }: LoginFormProps): React.JSX.Element
       const token = response.data.data?.accessToken;
       
       if (token) {
-        setAuthToken(token);
         await onLoginSuccess(token);
       } else {
         setError('No token received from server');

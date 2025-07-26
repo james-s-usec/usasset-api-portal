@@ -1,4 +1,4 @@
-import type { User } from '../services/auth-service';
+import type { User } from '../types/api-types';
 
 interface AuthenticatedViewProps {
   user: User | null;

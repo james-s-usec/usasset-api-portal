@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { projectsApi, usersApi } from '../services/api-client';
-import { authService } from '../services/auth-service';
+import { useAuth } from '../hooks/useAuth';
 
 interface DashboardStats {
   totalProjects: number;
@@ -15,7 +15,7 @@ export function Dashboard(): React.JSX.Element {
     userRole: 'Loading...'
   });
   const [loading, setLoading] = useState(true);
-  const currentUser = authService.getCurrentUser();
+  const { user: currentUser, isAuthenticated } = useAuth();
 
   useEffect(() => {
     let mounted = true;
@@ -35,17 +35,16 @@ export function Dashboard(): React.JSX.Element {
 
   const loadDashboardData = async (): Promise<void> => {
     // Don't try to load if we don't have authentication
-    const hasAuth = localStorage.getItem('authToken') || localStorage.getItem('apiKey');
-    if (!hasAuth) {
+    if (!isAuthenticated) {
       console.warn('No authentication found, skipping dashboard load');
       setLoading(false);
       return;
     }
     
     try {
-      // Load projects
-      const projectsResponse = await projectsApi.projectsControllerFindAll();
-      const projects = projectsResponse.data || [];
+      // Load projects using paginated endpoint
+      const projectsResponse = await projectsApi.projectsControllerFindPaginated(1, 100);
+      const projects = projectsResponse.data?.data?.items || [];
       
       // Add small delay to avoid rate limiting
       await new Promise(resolve => setTimeout(resolve, 100));
@@ -53,8 +52,8 @@ export function Dashboard(): React.JSX.Element {
       // Try to load users (may fail if no permission)
       let userCount = 0;
       try {
-        const usersResponse = await usersApi.usersControllerFindAll();
-        userCount = usersResponse.data?.length || 0;
+        const usersResponse = await usersApi.usersControllerFindPaginated(1, 100);
+        userCount = usersResponse.data?.data?.items?.length || 0;
       } catch {
         // User doesn't have permission to view all users
         userCount = -1;

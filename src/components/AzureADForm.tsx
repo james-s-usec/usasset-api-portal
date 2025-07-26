@@ -4,7 +4,7 @@ interface AzureADFormProps {
   onLoginSuccess: (token: string) => Promise<void>;
 }
 
-export const AzureADForm = ({ onLoginSuccess }: AzureADFormProps): React.JSX.Element => {
+export const AzureADForm = ({ onLoginSuccess: _onLoginSuccess }: AzureADFormProps): React.JSX.Element => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 

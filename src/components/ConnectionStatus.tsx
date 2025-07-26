@@ -57,7 +57,7 @@ export function ConnectionStatus(): React.JSX.Element {
   
   // Don't show connection status if we're getting rate limited
   if (status === 'error' && details.includes('429')) {
-    return null;
+    return <></>;
   }
 
   return (

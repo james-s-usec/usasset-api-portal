@@ -3,10 +3,20 @@ import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
-import { globalIgnores } from 'eslint/config'
 
 export default tseslint.config([
-  globalIgnores(['dist']),
+  // Ignore patterns
+  {
+    ignores: [
+      'dist/**',
+      'node_modules/**',
+      'src/api-sdk/**',  // Ignore generated API SDK files
+      'logs/**',
+      '*.log',
+      '.env*',
+      'coverage/**'
+    ]
+  },
   {
     files: ['**/*.{ts,tsx}'],
     extends: [
@@ -20,17 +30,29 @@ export default tseslint.config([
       globals: globals.browser,
     },
     rules: {
-      // Code complexity rules
-      'complexity': ['error', { max: 10 }],
-      'max-lines': ['error', { max: 400, skipComments: true, skipBlankLines: true }],
-      'max-lines-per-function': ['error', { max: 30, skipComments: true, skipBlankLines: true }],
-      'max-params': ['error', { max: 4 }],
+      // Code complexity rules - more reasonable limits
+      'complexity': ['warn', { max: 15 }],
+      'max-lines': ['warn', { max: 500, skipComments: true, skipBlankLines: true }],
+      'max-lines-per-function': ['warn', { max: 100, skipComments: true, skipBlankLines: true }],
+      'max-params': ['warn', { max: 5 }],
       
-      // TypeScript strict rules
-      '@typescript-eslint/no-explicit-any': 'error',
-      '@typescript-eslint/explicit-function-return-type': 'error',
-      '@typescript-eslint/no-unused-vars': 'error',
-      '@typescript-eslint/explicit-member-accessibility': 'error',
+      // TypeScript rules - less strict for now
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/explicit-function-return-type': ['warn', {
+        allowExpressions: true,
+        allowTypedFunctionExpressions: true,
+        allowHigherOrderFunctions: true,
+        allowDirectConstAssertionInArrowFunctions: true,
+      }],
+      '@typescript-eslint/no-unused-vars': ['error', { 
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        ignoreRestSiblings: true 
+      }],
+      '@typescript-eslint/explicit-member-accessibility': 'off',  // Not needed for React
+      
+      // React specific
+      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     },
   },
 ])

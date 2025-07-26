@@ -1,6 +1,4 @@
-// This file is deprecated - use AuthContext instead
-// Keeping the User type export for backward compatibility
-
+// API types
 import type { AuthControllerGetProfile200ResponseData } from '../api-sdk';
 
 export type User = AuthControllerGetProfile200ResponseData;

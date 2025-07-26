@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
-import { setApiKey, clearAuth } from '../services/api-client';
+import { authStorage } from '../utils/auth-storage';
 import { useAuth } from '../hooks/useAuth';
+import { useDebug } from '../contexts/DebugContext';
 
 export function DebugApiKey(): React.JSX.Element {
+  const { debugMode, setDebugMode } = useDebug();
   const [apiKey, setApiKeyInput] = useState('test-key-123');
   const [storageInfo, setStorageInfo] = useState<any>({});
   const [flowStep, setFlowStep] = useState(0);
@@ -37,7 +39,7 @@ export function DebugApiKey(): React.JSX.Element {
     
     // Step 1: Clear everything
     addResult('Step 1: Clearing all auth...');
-    clearAuth();
+    authStorage.clearAll();
     await new Promise(r => setTimeout(r, 100));
     
     // Step 2: Set API key in localStorage
@@ -114,9 +116,47 @@ export function DebugApiKey(): React.JSX.Element {
     borderRadius: '4px'
   });
 
+  // Only show debug tool when debug mode is enabled
+  if (!debugMode) {
+    return (
+      <div style={{ position: 'fixed', bottom: '20px', left: '20px', zIndex: 9999 }}>
+        <button 
+          onClick={() => setDebugMode(true)}
+          style={{ 
+            padding: '8px 16px', 
+            backgroundColor: '#6c757d', 
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            fontSize: '12px'
+          }}
+        >
+          Enable Debug Mode
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div style={containerStyle}>
-      <h3>API Key Debug Tool</h3>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+        <h3 style={{ margin: 0 }}>API Key Debug Tool</h3>
+        <button 
+          onClick={() => setDebugMode(false)}
+          style={{ 
+            padding: '4px 8px', 
+            backgroundColor: '#dc3545', 
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            fontSize: '12px'
+          }}
+        >
+          ✕ Close Debug
+        </button>
+      </div>
       
       <div style={{ marginBottom: '15px' }}>
         <input
@@ -135,7 +175,7 @@ export function DebugApiKey(): React.JSX.Element {
         <button onClick={handleTestRequest} style={buttonStyle}>
           Test API Request
         </button>
-        <button onClick={() => { clearAuth(); updateStorageInfo(); setFlowResults([]); }} style={{...buttonStyle, backgroundColor: '#dc3545'}}>
+        <button onClick={() => { authStorage.clearAll(); updateStorageInfo(); setFlowResults([]); }} style={{...buttonStyle, backgroundColor: '#dc3545'}}>
           Clear All
         </button>
       </div>

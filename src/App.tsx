@@ -6,27 +6,32 @@ import { ApiKeyForm } from './components/ApiKeyForm'
 import { AzureADForm } from './components/AzureADForm'
 import { AzureADCallback } from './components/AzureADCallback'
 import { AuthSelector } from './components/AuthSelector'
-import { AuthenticatedView } from './components/AuthenticatedView'
 import { useAuth } from './hooks/useAuth'
 import { ToastContainer, useToast } from './components/Toast'
 import { Dashboard } from './pages/Dashboard'
 import { DebugApiKey } from './components/DebugApiKey'
+import { DebugProvider } from './contexts/DebugContext'
+import { AuthProvider } from './contexts/AuthContext'
 
 function App(): React.JSX.Element {
   const { toasts, showToast, dismissToast } = useToast()
   
   return (
-    <BrowserRouter>
-      <DebugApiKey />
-      <ToastContainer messages={toasts} onDismiss={dismissToast} />
-      <Routes>
-        <Route path="/" element={<AppContent showToast={showToast} />} />
-        <Route path="/dashboard" element={<DashboardWrapper showToast={showToast} />} />
-        <Route path="/auth/callback" element={
-          <AzureADCallbackWrapper showToast={showToast} />
-        } />
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <DebugProvider>
+        <BrowserRouter>
+          <DebugApiKey />
+          <ToastContainer messages={toasts} onDismiss={dismissToast} />
+          <Routes>
+            <Route path="/" element={<AppContent showToast={showToast} />} />
+            <Route path="/dashboard" element={<DashboardWrapper showToast={showToast} />} />
+            <Route path="/auth/callback" element={
+              <AzureADCallbackWrapper showToast={showToast} />
+            } />
+          </Routes>
+        </BrowserRouter>
+      </DebugProvider>
+    </AuthProvider>
   )
 }
 
@@ -34,14 +39,11 @@ function App(): React.JSX.Element {
 function AppContent({ showToast }: { showToast: (message: string, type: 'success' | 'error' | 'info') => void }): React.JSX.Element {
   const {
     isAuthenticated,
-    user,
     loading,
-    authMethod,
     loginMode,
     setLoginMode,
     handleLoginSuccess,
     handleApiKeySuccess,
-    handleLogout,
   } = useAuth()
   
   // Wrap handleLoginSuccess to show toast
@@ -100,7 +102,7 @@ function AzureADCallbackWrapper({ showToast }: { showToast: (message: string, ty
 }
 
 // Dashboard wrapper with auth check
-function DashboardWrapper({ showToast }: { showToast: (message: string, type: 'success' | 'error' | 'info') => void }): React.JSX.Element {
+function DashboardWrapper({ showToast: _showToast }: { showToast: (message: string, type: 'success' | 'error' | 'info') => void }): React.JSX.Element {
   const { isAuthenticated } = useAuth()
   
   if (!isAuthenticated) {

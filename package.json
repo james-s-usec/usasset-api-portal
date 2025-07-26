@@ -7,7 +7,14 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "lint:fix": "eslint . --fix",
+    "typecheck": "tsc --noEmit",
+    "preview": "vite preview",
+    "test": "echo 'No tests configured yet'",
+    "status": "./status.sh",
+    "status:verbose": "./status.sh -v",
+    "status:generate": "npm run status:generate:all",
+    "status:generate:all": "mkdir -p logs && npm run lint > logs/lint-results.log 2>&1 || true && npm run typecheck > logs/typecheck-results.log 2>&1 || true && npm run build > logs/build-results.log 2>&1 || true && echo 'Status logs generated in logs/'"
   },
   "dependencies": {
     "@azure/msal-browser": "^4.16.0",
