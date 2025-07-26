@@ -56,7 +56,19 @@ export const useAuth = (): UseAuthReturn => {
 
   const handleApiKeyAuth = (): void => {
     setIsAuthenticated(true);
-    setUser({ email: 'API Key User' } as User);
+    setUser({ 
+      email: 'API Key User',
+      permissions: [
+        'view:project',
+        'view:user',
+        'view:location',
+        'view:asset',
+        'view:equipment',
+        'view:role',
+        'view:report',
+        'view:work_order'
+      ]
+    } as User);
     setLoading(false);
   };
 
@@ -75,10 +87,33 @@ export const useAuth = (): UseAuthReturn => {
   };
 
   const handleApiKeySuccess = (apiKey: string): void => {
-    setApiKey(apiKey);
-    setUser({ email: 'API Key User' } as User);
+    console.log('🔐 handleApiKeySuccess called with:', apiKey);
+    
+    // Don't use setApiKey as it clears localStorage - just set directly
+    localStorage.setItem('apiKey', apiKey);
+    localStorage.removeItem('authToken');
+    
+    console.log('🔐 API key saved to localStorage:', localStorage.getItem('apiKey'));
+    
+    // Update state
+    setUser({ 
+      email: 'API Key User',
+      permissions: [
+        'view:project',
+        'view:user',
+        'view:location',
+        'view:asset',
+        'view:equipment',
+        'view:role',
+        'view:report',
+        'view:work_order'
+      ]
+    } as User);
     setIsAuthenticated(true);
     setAuthMethod('apikey');
+    setLoading(false);
+    
+    console.log('🔐 Auth state updated - isAuthenticated:', true);
   };
 
   const handleLogout = (): void => {

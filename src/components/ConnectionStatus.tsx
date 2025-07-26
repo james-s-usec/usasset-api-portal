@@ -50,12 +50,15 @@ export function ConnectionStatus(): React.JSX.Element {
     setDetails(result.details);
   };
 
-  useEffect((): (() => void) => {
+  useEffect((): void => {
     checkConnection();
-    // Check every 30 seconds
-    const interval = setInterval(checkConnection, 30000);
-    return (): void => clearInterval(interval);
+    // No automatic interval - only manual refresh
   }, []);
+  
+  // Don't show connection status if we're getting rate limited
+  if (status === 'error' && details.includes('429')) {
+    return null;
+  }
 
   return (
     <div style={{

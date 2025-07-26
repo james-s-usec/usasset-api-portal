@@ -14,8 +14,14 @@ const config = new Configuration({
   },
   baseOptions: {
     headers: {
-      // Add API key if available
-      'x-api-key': localStorage.getItem('apiKey') || '',
+      // Dynamic header function to always get current API key
+      get 'x-api-key'() {
+        const apiKey = localStorage.getItem('apiKey') || '';
+        if (apiKey) {
+          console.log('🔐 API Client using API key:', apiKey.substring(0, 10) + '...');
+        }
+        return apiKey;
+      }
     },
     withCredentials: true, // Enable CORS credentials
   }
@@ -34,8 +40,13 @@ export const setAuthToken = (token: string): void => {
 
 // Helper function to set API key
 export const setApiKey = (apiKey: string): void => {
+  console.log('🔑 setApiKey called with:', apiKey);
   localStorage.setItem('apiKey', apiKey);
   localStorage.removeItem('authToken'); // Clear JWT when using API key
+  console.log('🔑 localStorage after save:', {
+    apiKey: localStorage.getItem('apiKey'),
+    authToken: localStorage.getItem('authToken')
+  });
   // Update the config headers
   if (config.baseOptions?.headers) {
     config.baseOptions.headers['x-api-key'] = apiKey;

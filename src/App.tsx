@@ -10,12 +10,14 @@ import { AuthenticatedView } from './components/AuthenticatedView'
 import { useAuth } from './hooks/useAuth'
 import { ToastContainer, useToast } from './components/Toast'
 import { Dashboard } from './pages/Dashboard'
+import { DebugApiKey } from './components/DebugApiKey'
 
 function App(): React.JSX.Element {
   const { toasts, showToast, dismissToast } = useToast()
   
   return (
     <BrowserRouter>
+      <DebugApiKey />
       <ToastContainer messages={toasts} onDismiss={dismissToast} />
       <Routes>
         <Route path="/" element={<AppContent showToast={showToast} />} />

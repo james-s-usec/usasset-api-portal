@@ -18,14 +18,37 @@ export function Dashboard(): React.JSX.Element {
   const currentUser = authService.getCurrentUser();
 
   useEffect(() => {
-    loadDashboardData();
+    let mounted = true;
+    
+    const loadData = async () => {
+      if (mounted) {
+        await loadDashboardData();
+      }
+    };
+    
+    loadData();
+    
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   const loadDashboardData = async (): Promise<void> => {
+    // Don't try to load if we don't have authentication
+    const hasAuth = localStorage.getItem('authToken') || localStorage.getItem('apiKey');
+    if (!hasAuth) {
+      console.warn('No authentication found, skipping dashboard load');
+      setLoading(false);
+      return;
+    }
+    
     try {
       // Load projects
       const projectsResponse = await projectsApi.projectsControllerFindAll();
       const projects = projectsResponse.data || [];
+      
+      // Add small delay to avoid rate limiting
+      await new Promise(resolve => setTimeout(resolve, 100));
       
       // Try to load users (may fail if no permission)
       let userCount = 0;
