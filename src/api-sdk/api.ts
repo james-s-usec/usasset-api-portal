@@ -523,6 +523,12 @@ export interface CreateUserDto {
      * @memberof CreateUserDto
      */
     'name': string;
+    /**
+     * Password must be at least 8 characters with uppercase, lowercase, and number
+     * @type {string}
+     * @memberof CreateUserDto
+     */
+    'password': string;
 }
 /**
  * 
@@ -1255,6 +1261,12 @@ export interface UpdateUserDto {
      * @memberof UpdateUserDto
      */
     'name'?: string;
+    /**
+     * Password must be at least 8 characters with uppercase, lowercase, and number
+     * @type {string}
+     * @memberof UpdateUserDto
+     */
+    'password'?: string;
 }
 /**
  * 

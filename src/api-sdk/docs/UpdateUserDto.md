@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **email** | **string** |  | [optional] [default to undefined]
 **name** | **string** |  | [optional] [default to undefined]
+**password** | **string** | Password must be at least 8 characters with uppercase, lowercase, and number | [optional] [default to undefined]
 
 ## Example
 
@@ -16,6 +17,7 @@ import { UpdateUserDto } from '@usasset/api-client';
 const instance: UpdateUserDto = {
     email,
     name,
+    password,
 };
 ```
 

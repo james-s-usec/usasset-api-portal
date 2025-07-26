@@ -241,12 +241,12 @@
                 
                 <div class="form-group">
                     <label for="jwtEmail">Email:</label>
-                    <input type="email" id="jwtEmail" value="demo@example.com" placeholder="Enter email">
+                    <input type="email" id="jwtEmail" value="testauth@example.com" placeholder="Enter email">
                 </div>
                 
                 <div class="form-group">
                     <label for="jwtPassword">Password:</label>
-                    <input type="password" id="jwtPassword" value="password123" placeholder="Enter password">
+                    <input type="password" id="jwtPassword" value="TestPass123!" placeholder="Enter password">
                 </div>
                 
                 <div class="form-group">
@@ -256,7 +256,8 @@
                 
                 <button class="button" onclick="testJwtFlow()">Test Complete Flow</button>
                 <button class="button success" onclick="testJwtStep('clear')">1. Clear Auth</button>
-                <button class="button success" onclick="testJwtStep('login')">2. Login</button>
+                <button class="button success" onclick="testJwtStep('login')">2. Login (Correct)</button>
+                <button class="button danger" onclick="testJwtStep('login-wrong')">2b. Login (Wrong Pass)</button>
                 <button class="button success" onclick="testJwtStep('verify-token')">3. Verify Token</button>
                 <button class="button success" onclick="testJwtStep('profile')">4. Get Profile</button>
                 <button class="button success" onclick="testJwtStep('auth-test')">5. Test Auth</button>
@@ -659,7 +660,7 @@
                     
                 case 'login':
                     updateStepStatus('jwt-step-login', 'running');
-                    log('Attempting JWT login...', 'info');
+                    log('Attempting JWT login with correct password...', 'info');
                     
                     try {
                         const requestUrl = `${apiUrl}/auth/login`;
@@ -670,7 +671,7 @@
                         };
                         
                         // Log request
-                        log('--- LOGIN REQUEST ---', 'info');
+                        log('--- LOGIN REQUEST (CORRECT PASSWORD) ---', 'info');
                         log(`URL: ${requestUrl}`, 'info');
                         log(`Method: POST`, 'info');
                         log(`Body: ${JSON.stringify(requestBody, null, 2)}`, 'info');
@@ -722,6 +723,61 @@
                         log(`Error: ${error.message}`, 'error');
                         updateStepStatus('jwt-step-login', 'failed');
                         showStatus('jwtStatus', `Login error: ${error.message}`, 'error');
+                    }
+                    break;
+                    
+                case 'login-wrong':
+                    log('Testing JWT login with WRONG password (security test)...', 'info');
+                    
+                    try {
+                        const requestUrl = `${apiUrl}/auth/login`;
+                        const requestBody = {
+                            email,
+                            password: 'WrongPassword123!', // Intentionally wrong password
+                            ...(projectId && { projectId })
+                        };
+                        
+                        // Log request
+                        log('--- LOGIN REQUEST (WRONG PASSWORD) ---', 'info');
+                        log(`URL: ${requestUrl}`, 'info');
+                        log(`Method: POST`, 'info');
+                        log(`Body: ${JSON.stringify(requestBody, null, 2)}`, 'info');
+                        log('🔒 SECURITY TEST: This should fail with 401 Unauthorized', 'info');
+                        
+                        const startTime = Date.now();
+                        const response = await fetch(requestUrl, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(requestBody)
+                        });
+                        const endTime = Date.now();
+                        
+                        // Log response
+                        log('--- RESPONSE ---', 'info');
+                        log(`Status: ${response.status} ${response.statusText}`, 
+                            response.status === 401 ? 'success' : 'error');
+                        log(`Time: ${endTime - startTime}ms`, 'info');
+                        
+                        const data = await response.json();
+                        log('Response Body:', 'info');
+                        log(JSON.stringify(data, null, 2), 'info');
+                        
+                        if (response.status === 401 && data.error === 'Invalid credentials') {
+                            log('✅ SECURITY TEST PASSED: Wrong password correctly rejected', 'success');
+                            showStatus('jwtStatus', 'Security test passed: Wrong password rejected', 'success');
+                        } else if (response.ok) {
+                            log('❌ SECURITY VULNERABILITY: Wrong password was accepted!', 'error');
+                            showStatus('jwtStatus', 'SECURITY RISK: Wrong password accepted!', 'error');
+                        } else {
+                            log(`⚠️ Unexpected response: ${response.status}`, 'error');
+                            showStatus('jwtStatus', `Unexpected response: ${response.status}`, 'error');
+                        }
+                    } catch (error) {
+                        log('--- LOGIN ERROR ---', 'error');
+                        log(`Error: ${error.message}`, 'error');
+                        showStatus('jwtStatus', `Security test error: ${error.message}`, 'error');
                     }
                     break;
                     

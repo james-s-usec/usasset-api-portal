@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **email** | **string** |  | [default to undefined]
 **name** | **string** |  | [default to undefined]
+**password** | **string** | Password must be at least 8 characters with uppercase, lowercase, and number | [default to undefined]
 
 ## Example
 
@@ -16,6 +17,7 @@ import { CreateUserDto } from '@usasset/api-client';
 const instance: CreateUserDto = {
     email,
     name,
+    password,
 };
 ```
 
