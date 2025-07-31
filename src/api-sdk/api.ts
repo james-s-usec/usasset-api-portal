@@ -476,6 +476,97 @@ export interface BulkOperationResultDto {
 /**
  * 
  * @export
+ * @interface CreateEquipmentDto
+ */
+export interface CreateEquipmentDto {
+    /**
+     * Equipment mark/tag from drawings
+     * @type {string}
+     * @memberof CreateEquipmentDto
+     */
+    'mark': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateEquipmentDto
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateEquipmentDto
+     */
+    'description'?: string;
+    /**
+     * Equipment type (Air Handler, VAV Box, etc.)
+     * @type {string}
+     * @memberof CreateEquipmentDto
+     */
+    'type': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateEquipmentDto
+     */
+    'manufacturer'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateEquipmentDto
+     */
+    'model'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateEquipmentDto
+     */
+    'serialNumber'?: string;
+    /**
+     * UniFormat classification code
+     * @type {string}
+     * @memberof CreateEquipmentDto
+     */
+    'uniformatCode'?: string;
+    /**
+     * MasterFormat classification code
+     * @type {string}
+     * @memberof CreateEquipmentDto
+     */
+    'masterformatCode'?: string;
+    /**
+     * OmniClass classification number
+     * @type {string}
+     * @memberof CreateEquipmentDto
+     */
+    'omniclassNumber'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateEquipmentDto
+     */
+    'notes'?: string;
+    /**
+     * Custom metadata fields
+     * @type {object}
+     * @memberof CreateEquipmentDto
+     */
+    'metadata'?: object;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateEquipmentDto
+     */
+    'projectId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateEquipmentDto
+     */
+    'locationId'?: string;
+}
+/**
+ * 
+ * @export
  * @interface CreateLocationDto
  */
 export interface CreateLocationDto {
@@ -529,6 +620,214 @@ export interface CreateUserDto {
      * @memberof CreateUserDto
      */
     'password': string;
+}
+/**
+ * 
+ * @export
+ * @interface EquipmentControllerFindAll200Response
+ */
+export interface EquipmentControllerFindAll200Response {
+    /**
+     * Indicates if the request was successful
+     * @type {boolean}
+     * @memberof EquipmentControllerFindAll200Response
+     */
+    'success': boolean;
+    /**
+     * 
+     * @type {EquipmentDto}
+     * @memberof EquipmentControllerFindAll200Response
+     */
+    'data': EquipmentDto;
+    /**
+     * Optional message
+     * @type {string}
+     * @memberof EquipmentControllerFindAll200Response
+     */
+    'message'?: string;
+    /**
+     * Timestamp of the response
+     * @type {string}
+     * @memberof EquipmentControllerFindAll200Response
+     */
+    'timestamp': string;
+    /**
+     * Request path
+     * @type {string}
+     * @memberof EquipmentControllerFindAll200Response
+     */
+    'path': string;
+}
+/**
+ * 
+ * @export
+ * @interface EquipmentControllerFindPaginated200Response
+ */
+export interface EquipmentControllerFindPaginated200Response {
+    /**
+     * Indicates if the request was successful
+     * @type {boolean}
+     * @memberof EquipmentControllerFindPaginated200Response
+     */
+    'success': boolean;
+    /**
+     * 
+     * @type {PaginatedEquipmentDto}
+     * @memberof EquipmentControllerFindPaginated200Response
+     */
+    'data': PaginatedEquipmentDto;
+    /**
+     * Optional message
+     * @type {string}
+     * @memberof EquipmentControllerFindPaginated200Response
+     */
+    'message'?: string;
+    /**
+     * Timestamp of the response
+     * @type {string}
+     * @memberof EquipmentControllerFindPaginated200Response
+     */
+    'timestamp': string;
+    /**
+     * Request path
+     * @type {string}
+     * @memberof EquipmentControllerFindPaginated200Response
+     */
+    'path': string;
+}
+/**
+ * 
+ * @export
+ * @interface EquipmentDto
+ */
+export interface EquipmentDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof EquipmentDto
+     */
+    'id': string;
+    /**
+     * Equipment mark from drawings
+     * @type {string}
+     * @memberof EquipmentDto
+     */
+    'mark': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EquipmentDto
+     */
+    'name': string;
+    /**
+     * 
+     * @type {object}
+     * @memberof EquipmentDto
+     */
+    'description'?: object;
+    /**
+     * 
+     * @type {string}
+     * @memberof EquipmentDto
+     */
+    'type': string;
+    /**
+     * 
+     * @type {object}
+     * @memberof EquipmentDto
+     */
+    'manufacturer'?: object;
+    /**
+     * 
+     * @type {object}
+     * @memberof EquipmentDto
+     */
+    'model'?: object;
+    /**
+     * 
+     * @type {object}
+     * @memberof EquipmentDto
+     */
+    'serialNumber'?: object;
+    /**
+     * 
+     * @type {object}
+     * @memberof EquipmentDto
+     */
+    'uniformatCode'?: object;
+    /**
+     * 
+     * @type {object}
+     * @memberof EquipmentDto
+     */
+    'masterformatCode'?: object;
+    /**
+     * 
+     * @type {object}
+     * @memberof EquipmentDto
+     */
+    'omniclassNumber'?: object;
+    /**
+     * 
+     * @type {string}
+     * @memberof EquipmentDto
+     */
+    'status': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EquipmentDto
+     */
+    'notes'?: string;
+    /**
+     * Custom metadata fields
+     * @type {object}
+     * @memberof EquipmentDto
+     */
+    'metadata'?: object;
+    /**
+     * 
+     * @type {string}
+     * @memberof EquipmentDto
+     */
+    'projectId': string;
+    /**
+     * 
+     * @type {object}
+     * @memberof EquipmentDto
+     */
+    'locationId'?: object;
+    /**
+     * 
+     * @type {string}
+     * @memberof EquipmentDto
+     */
+    'createdAt': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EquipmentDto
+     */
+    'updatedAt': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EquipmentDto
+     */
+    'createdBy': string;
+}
+/**
+ * 
+ * @export
+ * @interface FileUrlDto
+ */
+export interface FileUrlDto {
+    /**
+     * Presigned URL for direct file access
+     * @type {string}
+     * @memberof FileUrlDto
+     */
+    'url': string;
 }
 /**
  * 
@@ -758,6 +1057,19 @@ export interface MyPermissionsDto {
      * @memberof MyPermissionsDto
      */
     'issuedAt': string;
+}
+/**
+ * 
+ * @export
+ * @interface PaginatedEquipmentDto
+ */
+export interface PaginatedEquipmentDto {
+    /**
+     * 
+     * @type {Array<EquipmentDto>}
+     * @memberof PaginatedEquipmentDto
+     */
+    'data': Array<EquipmentDto>;
 }
 /**
  * 
@@ -1211,6 +1523,238 @@ export interface RoleDto {
      */
     'userCount': number;
 }
+/**
+ * 
+ * @export
+ * @interface StorageControllerGetFileUrl200Response
+ */
+export interface StorageControllerGetFileUrl200Response {
+    /**
+     * Indicates if the request was successful
+     * @type {boolean}
+     * @memberof StorageControllerGetFileUrl200Response
+     */
+    'success': boolean;
+    /**
+     * 
+     * @type {FileUrlDto}
+     * @memberof StorageControllerGetFileUrl200Response
+     */
+    'data': FileUrlDto;
+    /**
+     * Optional message
+     * @type {string}
+     * @memberof StorageControllerGetFileUrl200Response
+     */
+    'message'?: string;
+    /**
+     * Timestamp of the response
+     * @type {string}
+     * @memberof StorageControllerGetFileUrl200Response
+     */
+    'timestamp': string;
+    /**
+     * Request path
+     * @type {string}
+     * @memberof StorageControllerGetFileUrl200Response
+     */
+    'path': string;
+}
+/**
+ * 
+ * @export
+ * @interface StorageControllerUploadFile200Response
+ */
+export interface StorageControllerUploadFile200Response {
+    /**
+     * Indicates if the request was successful
+     * @type {boolean}
+     * @memberof StorageControllerUploadFile200Response
+     */
+    'success': boolean;
+    /**
+     * 
+     * @type {StorageFileDto}
+     * @memberof StorageControllerUploadFile200Response
+     */
+    'data': StorageFileDto;
+    /**
+     * Optional message
+     * @type {string}
+     * @memberof StorageControllerUploadFile200Response
+     */
+    'message'?: string;
+    /**
+     * Timestamp of the response
+     * @type {string}
+     * @memberof StorageControllerUploadFile200Response
+     */
+    'timestamp': string;
+    /**
+     * Request path
+     * @type {string}
+     * @memberof StorageControllerUploadFile200Response
+     */
+    'path': string;
+}
+/**
+ * 
+ * @export
+ * @interface StorageFileDto
+ */
+export interface StorageFileDto {
+    /**
+     * Unique identifier for the file
+     * @type {string}
+     * @memberof StorageFileDto
+     */
+    'id': string;
+    /**
+     * Original file name
+     * @type {string}
+     * @memberof StorageFileDto
+     */
+    'fileName': string;
+    /**
+     * File size in bytes
+     * @type {number}
+     * @memberof StorageFileDto
+     */
+    'size': number;
+    /**
+     * MIME type of the file
+     * @type {string}
+     * @memberof StorageFileDto
+     */
+    'contentType': string;
+    /**
+     * Date when the file was uploaded
+     * @type {string}
+     * @memberof StorageFileDto
+     */
+    'uploadedAt': string;
+    /**
+     * Optional metadata associated with the file
+     * @type {object}
+     * @memberof StorageFileDto
+     */
+    'metadata'?: object;
+}
+/**
+ * 
+ * @export
+ * @interface UpdateEquipmentDto
+ */
+export interface UpdateEquipmentDto {
+    /**
+     * Equipment mark/tag from drawings
+     * @type {string}
+     * @memberof UpdateEquipmentDto
+     */
+    'mark'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateEquipmentDto
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateEquipmentDto
+     */
+    'description'?: string;
+    /**
+     * Equipment type (Air Handler, VAV Box, etc.)
+     * @type {string}
+     * @memberof UpdateEquipmentDto
+     */
+    'type'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateEquipmentDto
+     */
+    'manufacturer'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateEquipmentDto
+     */
+    'model'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateEquipmentDto
+     */
+    'serialNumber'?: string;
+    /**
+     * UniFormat classification code
+     * @type {string}
+     * @memberof UpdateEquipmentDto
+     */
+    'uniformatCode'?: string;
+    /**
+     * MasterFormat classification code
+     * @type {string}
+     * @memberof UpdateEquipmentDto
+     */
+    'masterformatCode'?: string;
+    /**
+     * OmniClass classification number
+     * @type {string}
+     * @memberof UpdateEquipmentDto
+     */
+    'omniclassNumber'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateEquipmentDto
+     */
+    'notes'?: string;
+    /**
+     * Custom metadata fields
+     * @type {object}
+     * @memberof UpdateEquipmentDto
+     */
+    'metadata'?: object;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateEquipmentDto
+     */
+    'projectId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateEquipmentDto
+     */
+    'locationId'?: string;
+    /**
+     * Equipment status
+     * @type {string}
+     * @memberof UpdateEquipmentDto
+     */
+    'status'?: UpdateEquipmentDtoStatusEnum;
+}
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum UpdateEquipmentDtoStatusEnum {
+    Active = 'active',
+    Inactive = 'inactive',
+    Maintenance = 'maintenance',
+    Disposed = 'disposed',
+    Ordered = 'ordered',
+    Estimating = 'estimating',
+    Submittal = 'submittal',
+    Approved = 'approved',
+    Installed = 'installed',
+    Commissioned = 'commissioned'
+}
+
 /**
  * 
  * @export
@@ -2047,6 +2591,1004 @@ export class AuthenticationApi extends BaseAPI implements AuthenticationApiInter
     }
 }
 
+
+
+/**
+ * EquipmentApi - axios parameter creator
+ * @export
+ */
+export const EquipmentApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Create multiple equipment records
+         * @param {Array<CreateEquipmentDto>} createEquipmentDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        equipmentControllerBulkCreate: async (createEquipmentDto: Array<CreateEquipmentDto>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'createEquipmentDto' is not null or undefined
+            assertParamExists('equipmentControllerBulkCreate', 'createEquipmentDto', createEquipmentDto)
+            const localVarPath = `/equipment/bulk`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api-key required
+            await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createEquipmentDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Create new equipment
+         * @param {CreateEquipmentDto} createEquipmentDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        equipmentControllerCreate: async (createEquipmentDto: CreateEquipmentDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'createEquipmentDto' is not null or undefined
+            assertParamExists('equipmentControllerCreate', 'createEquipmentDto', createEquipmentDto)
+            const localVarPath = `/equipment`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api-key required
+            await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createEquipmentDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get all equipment
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        equipmentControllerFindAll: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/equipment`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api-key required
+            await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get equipment by location
+         * @param {string} locationId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        equipmentControllerFindByLocation: async (locationId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'locationId' is not null or undefined
+            assertParamExists('equipmentControllerFindByLocation', 'locationId', locationId)
+            const localVarPath = `/equipment/location/{locationId}`
+                .replace(`{${"locationId"}}`, encodeURIComponent(String(locationId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api-key required
+            await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get equipment by project
+         * @param {string} projectId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        equipmentControllerFindByProject: async (projectId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectId' is not null or undefined
+            assertParamExists('equipmentControllerFindByProject', 'projectId', projectId)
+            const localVarPath = `/equipment/project/{projectId}`
+                .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api-key required
+            await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get equipment by id
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        equipmentControllerFindOne: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('equipmentControllerFindOne', 'id', id)
+            const localVarPath = `/equipment/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api-key required
+            await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get paginated equipment list
+         * @param {number} [page] 
+         * @param {number} [limit] 
+         * @param {string} [search] Search by name or mark
+         * @param {string} [status] Filter by status
+         * @param {string} [type] Filter by equipment type
+         * @param {string} [locationId] Filter by location
+         * @param {EquipmentControllerFindPaginatedSortByEnum} [sortBy] Field to sort by
+         * @param {EquipmentControllerFindPaginatedSortOrderEnum} [sortOrder] Sort order
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        equipmentControllerFindPaginated: async (page?: number, limit?: number, search?: string, status?: string, type?: string, locationId?: string, sortBy?: EquipmentControllerFindPaginatedSortByEnum, sortOrder?: EquipmentControllerFindPaginatedSortOrderEnum, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/equipment/paginated`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api-key required
+            await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+            if (search !== undefined) {
+                localVarQueryParameter['search'] = search;
+            }
+
+            if (status !== undefined) {
+                localVarQueryParameter['status'] = status;
+            }
+
+            if (type !== undefined) {
+                localVarQueryParameter['type'] = type;
+            }
+
+            if (locationId !== undefined) {
+                localVarQueryParameter['locationId'] = locationId;
+            }
+
+            if (sortBy !== undefined) {
+                localVarQueryParameter['sortBy'] = sortBy;
+            }
+
+            if (sortOrder !== undefined) {
+                localVarQueryParameter['sortOrder'] = sortOrder;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get equipment statistics
+         * @param {string} [projectId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        equipmentControllerGetStats: async (projectId?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/equipment/stats`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api-key required
+            await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (projectId !== undefined) {
+                localVarQueryParameter['projectId'] = projectId;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Delete equipment
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        equipmentControllerRemove: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('equipmentControllerRemove', 'id', id)
+            const localVarPath = `/equipment/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api-key required
+            await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Update equipment
+         * @param {string} id 
+         * @param {UpdateEquipmentDto} updateEquipmentDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        equipmentControllerUpdate: async (id: string, updateEquipmentDto: UpdateEquipmentDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('equipmentControllerUpdate', 'id', id)
+            // verify required parameter 'updateEquipmentDto' is not null or undefined
+            assertParamExists('equipmentControllerUpdate', 'updateEquipmentDto', updateEquipmentDto)
+            const localVarPath = `/equipment/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api-key required
+            await setApiKeyToObject(localVarHeaderParameter, "x-api-key", configuration)
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateEquipmentDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * EquipmentApi - functional programming interface
+ * @export
+ */
+export const EquipmentApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = EquipmentApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Create multiple equipment records
+         * @param {Array<CreateEquipmentDto>} createEquipmentDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async equipmentControllerBulkCreate(createEquipmentDto: Array<CreateEquipmentDto>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EquipmentControllerFindAll200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.equipmentControllerBulkCreate(createEquipmentDto, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EquipmentApi.equipmentControllerBulkCreate']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Create new equipment
+         * @param {CreateEquipmentDto} createEquipmentDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async equipmentControllerCreate(createEquipmentDto: CreateEquipmentDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EquipmentControllerFindAll200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.equipmentControllerCreate(createEquipmentDto, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EquipmentApi.equipmentControllerCreate']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Get all equipment
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async equipmentControllerFindAll(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EquipmentControllerFindAll200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.equipmentControllerFindAll(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EquipmentApi.equipmentControllerFindAll']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Get equipment by location
+         * @param {string} locationId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async equipmentControllerFindByLocation(locationId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EquipmentControllerFindAll200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.equipmentControllerFindByLocation(locationId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EquipmentApi.equipmentControllerFindByLocation']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Get equipment by project
+         * @param {string} projectId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async equipmentControllerFindByProject(projectId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EquipmentControllerFindAll200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.equipmentControllerFindByProject(projectId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EquipmentApi.equipmentControllerFindByProject']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Get equipment by id
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async equipmentControllerFindOne(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EquipmentControllerFindAll200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.equipmentControllerFindOne(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EquipmentApi.equipmentControllerFindOne']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Get paginated equipment list
+         * @param {number} [page] 
+         * @param {number} [limit] 
+         * @param {string} [search] Search by name or mark
+         * @param {string} [status] Filter by status
+         * @param {string} [type] Filter by equipment type
+         * @param {string} [locationId] Filter by location
+         * @param {EquipmentControllerFindPaginatedSortByEnum} [sortBy] Field to sort by
+         * @param {EquipmentControllerFindPaginatedSortOrderEnum} [sortOrder] Sort order
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async equipmentControllerFindPaginated(page?: number, limit?: number, search?: string, status?: string, type?: string, locationId?: string, sortBy?: EquipmentControllerFindPaginatedSortByEnum, sortOrder?: EquipmentControllerFindPaginatedSortOrderEnum, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EquipmentControllerFindPaginated200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.equipmentControllerFindPaginated(page, limit, search, status, type, locationId, sortBy, sortOrder, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EquipmentApi.equipmentControllerFindPaginated']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Get equipment statistics
+         * @param {string} [projectId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async equipmentControllerGetStats(projectId?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.equipmentControllerGetStats(projectId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EquipmentApi.equipmentControllerGetStats']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Delete equipment
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async equipmentControllerRemove(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.equipmentControllerRemove(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EquipmentApi.equipmentControllerRemove']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Update equipment
+         * @param {string} id 
+         * @param {UpdateEquipmentDto} updateEquipmentDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async equipmentControllerUpdate(id: string, updateEquipmentDto: UpdateEquipmentDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EquipmentControllerFindAll200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.equipmentControllerUpdate(id, updateEquipmentDto, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EquipmentApi.equipmentControllerUpdate']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * EquipmentApi - factory interface
+ * @export
+ */
+export const EquipmentApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = EquipmentApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Create multiple equipment records
+         * @param {Array<CreateEquipmentDto>} createEquipmentDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        equipmentControllerBulkCreate(createEquipmentDto: Array<CreateEquipmentDto>, options?: RawAxiosRequestConfig): AxiosPromise<EquipmentControllerFindAll200Response> {
+            return localVarFp.equipmentControllerBulkCreate(createEquipmentDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Create new equipment
+         * @param {CreateEquipmentDto} createEquipmentDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        equipmentControllerCreate(createEquipmentDto: CreateEquipmentDto, options?: RawAxiosRequestConfig): AxiosPromise<EquipmentControllerFindAll200Response> {
+            return localVarFp.equipmentControllerCreate(createEquipmentDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get all equipment
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        equipmentControllerFindAll(options?: RawAxiosRequestConfig): AxiosPromise<EquipmentControllerFindAll200Response> {
+            return localVarFp.equipmentControllerFindAll(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get equipment by location
+         * @param {string} locationId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        equipmentControllerFindByLocation(locationId: string, options?: RawAxiosRequestConfig): AxiosPromise<EquipmentControllerFindAll200Response> {
+            return localVarFp.equipmentControllerFindByLocation(locationId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get equipment by project
+         * @param {string} projectId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        equipmentControllerFindByProject(projectId: string, options?: RawAxiosRequestConfig): AxiosPromise<EquipmentControllerFindAll200Response> {
+            return localVarFp.equipmentControllerFindByProject(projectId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get equipment by id
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        equipmentControllerFindOne(id: string, options?: RawAxiosRequestConfig): AxiosPromise<EquipmentControllerFindAll200Response> {
+            return localVarFp.equipmentControllerFindOne(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get paginated equipment list
+         * @param {number} [page] 
+         * @param {number} [limit] 
+         * @param {string} [search] Search by name or mark
+         * @param {string} [status] Filter by status
+         * @param {string} [type] Filter by equipment type
+         * @param {string} [locationId] Filter by location
+         * @param {EquipmentControllerFindPaginatedSortByEnum} [sortBy] Field to sort by
+         * @param {EquipmentControllerFindPaginatedSortOrderEnum} [sortOrder] Sort order
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        equipmentControllerFindPaginated(page?: number, limit?: number, search?: string, status?: string, type?: string, locationId?: string, sortBy?: EquipmentControllerFindPaginatedSortByEnum, sortOrder?: EquipmentControllerFindPaginatedSortOrderEnum, options?: RawAxiosRequestConfig): AxiosPromise<EquipmentControllerFindPaginated200Response> {
+            return localVarFp.equipmentControllerFindPaginated(page, limit, search, status, type, locationId, sortBy, sortOrder, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get equipment statistics
+         * @param {string} [projectId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        equipmentControllerGetStats(projectId?: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.equipmentControllerGetStats(projectId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Delete equipment
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        equipmentControllerRemove(id: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.equipmentControllerRemove(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Update equipment
+         * @param {string} id 
+         * @param {UpdateEquipmentDto} updateEquipmentDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        equipmentControllerUpdate(id: string, updateEquipmentDto: UpdateEquipmentDto, options?: RawAxiosRequestConfig): AxiosPromise<EquipmentControllerFindAll200Response> {
+            return localVarFp.equipmentControllerUpdate(id, updateEquipmentDto, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * EquipmentApi - interface
+ * @export
+ * @interface EquipmentApi
+ */
+export interface EquipmentApiInterface {
+    /**
+     * 
+     * @summary Create multiple equipment records
+     * @param {Array<CreateEquipmentDto>} createEquipmentDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EquipmentApiInterface
+     */
+    equipmentControllerBulkCreate(createEquipmentDto: Array<CreateEquipmentDto>, options?: RawAxiosRequestConfig): AxiosPromise<EquipmentControllerFindAll200Response>;
+
+    /**
+     * 
+     * @summary Create new equipment
+     * @param {CreateEquipmentDto} createEquipmentDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EquipmentApiInterface
+     */
+    equipmentControllerCreate(createEquipmentDto: CreateEquipmentDto, options?: RawAxiosRequestConfig): AxiosPromise<EquipmentControllerFindAll200Response>;
+
+    /**
+     * 
+     * @summary Get all equipment
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EquipmentApiInterface
+     */
+    equipmentControllerFindAll(options?: RawAxiosRequestConfig): AxiosPromise<EquipmentControllerFindAll200Response>;
+
+    /**
+     * 
+     * @summary Get equipment by location
+     * @param {string} locationId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EquipmentApiInterface
+     */
+    equipmentControllerFindByLocation(locationId: string, options?: RawAxiosRequestConfig): AxiosPromise<EquipmentControllerFindAll200Response>;
+
+    /**
+     * 
+     * @summary Get equipment by project
+     * @param {string} projectId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EquipmentApiInterface
+     */
+    equipmentControllerFindByProject(projectId: string, options?: RawAxiosRequestConfig): AxiosPromise<EquipmentControllerFindAll200Response>;
+
+    /**
+     * 
+     * @summary Get equipment by id
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EquipmentApiInterface
+     */
+    equipmentControllerFindOne(id: string, options?: RawAxiosRequestConfig): AxiosPromise<EquipmentControllerFindAll200Response>;
+
+    /**
+     * 
+     * @summary Get paginated equipment list
+     * @param {number} [page] 
+     * @param {number} [limit] 
+     * @param {string} [search] Search by name or mark
+     * @param {string} [status] Filter by status
+     * @param {string} [type] Filter by equipment type
+     * @param {string} [locationId] Filter by location
+     * @param {EquipmentControllerFindPaginatedSortByEnum} [sortBy] Field to sort by
+     * @param {EquipmentControllerFindPaginatedSortOrderEnum} [sortOrder] Sort order
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EquipmentApiInterface
+     */
+    equipmentControllerFindPaginated(page?: number, limit?: number, search?: string, status?: string, type?: string, locationId?: string, sortBy?: EquipmentControllerFindPaginatedSortByEnum, sortOrder?: EquipmentControllerFindPaginatedSortOrderEnum, options?: RawAxiosRequestConfig): AxiosPromise<EquipmentControllerFindPaginated200Response>;
+
+    /**
+     * 
+     * @summary Get equipment statistics
+     * @param {string} [projectId] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EquipmentApiInterface
+     */
+    equipmentControllerGetStats(projectId?: string, options?: RawAxiosRequestConfig): AxiosPromise<void>;
+
+    /**
+     * 
+     * @summary Delete equipment
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EquipmentApiInterface
+     */
+    equipmentControllerRemove(id: string, options?: RawAxiosRequestConfig): AxiosPromise<void>;
+
+    /**
+     * 
+     * @summary Update equipment
+     * @param {string} id 
+     * @param {UpdateEquipmentDto} updateEquipmentDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EquipmentApiInterface
+     */
+    equipmentControllerUpdate(id: string, updateEquipmentDto: UpdateEquipmentDto, options?: RawAxiosRequestConfig): AxiosPromise<EquipmentControllerFindAll200Response>;
+
+}
+
+/**
+ * EquipmentApi - object-oriented interface
+ * @export
+ * @class EquipmentApi
+ * @extends {BaseAPI}
+ */
+export class EquipmentApi extends BaseAPI implements EquipmentApiInterface {
+    /**
+     * 
+     * @summary Create multiple equipment records
+     * @param {Array<CreateEquipmentDto>} createEquipmentDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EquipmentApi
+     */
+    public equipmentControllerBulkCreate(createEquipmentDto: Array<CreateEquipmentDto>, options?: RawAxiosRequestConfig) {
+        return EquipmentApiFp(this.configuration).equipmentControllerBulkCreate(createEquipmentDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Create new equipment
+     * @param {CreateEquipmentDto} createEquipmentDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EquipmentApi
+     */
+    public equipmentControllerCreate(createEquipmentDto: CreateEquipmentDto, options?: RawAxiosRequestConfig) {
+        return EquipmentApiFp(this.configuration).equipmentControllerCreate(createEquipmentDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get all equipment
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EquipmentApi
+     */
+    public equipmentControllerFindAll(options?: RawAxiosRequestConfig) {
+        return EquipmentApiFp(this.configuration).equipmentControllerFindAll(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get equipment by location
+     * @param {string} locationId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EquipmentApi
+     */
+    public equipmentControllerFindByLocation(locationId: string, options?: RawAxiosRequestConfig) {
+        return EquipmentApiFp(this.configuration).equipmentControllerFindByLocation(locationId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get equipment by project
+     * @param {string} projectId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EquipmentApi
+     */
+    public equipmentControllerFindByProject(projectId: string, options?: RawAxiosRequestConfig) {
+        return EquipmentApiFp(this.configuration).equipmentControllerFindByProject(projectId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get equipment by id
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EquipmentApi
+     */
+    public equipmentControllerFindOne(id: string, options?: RawAxiosRequestConfig) {
+        return EquipmentApiFp(this.configuration).equipmentControllerFindOne(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get paginated equipment list
+     * @param {number} [page] 
+     * @param {number} [limit] 
+     * @param {string} [search] Search by name or mark
+     * @param {string} [status] Filter by status
+     * @param {string} [type] Filter by equipment type
+     * @param {string} [locationId] Filter by location
+     * @param {EquipmentControllerFindPaginatedSortByEnum} [sortBy] Field to sort by
+     * @param {EquipmentControllerFindPaginatedSortOrderEnum} [sortOrder] Sort order
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EquipmentApi
+     */
+    public equipmentControllerFindPaginated(page?: number, limit?: number, search?: string, status?: string, type?: string, locationId?: string, sortBy?: EquipmentControllerFindPaginatedSortByEnum, sortOrder?: EquipmentControllerFindPaginatedSortOrderEnum, options?: RawAxiosRequestConfig) {
+        return EquipmentApiFp(this.configuration).equipmentControllerFindPaginated(page, limit, search, status, type, locationId, sortBy, sortOrder, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get equipment statistics
+     * @param {string} [projectId] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EquipmentApi
+     */
+    public equipmentControllerGetStats(projectId?: string, options?: RawAxiosRequestConfig) {
+        return EquipmentApiFp(this.configuration).equipmentControllerGetStats(projectId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Delete equipment
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EquipmentApi
+     */
+    public equipmentControllerRemove(id: string, options?: RawAxiosRequestConfig) {
+        return EquipmentApiFp(this.configuration).equipmentControllerRemove(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Update equipment
+     * @param {string} id 
+     * @param {UpdateEquipmentDto} updateEquipmentDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EquipmentApi
+     */
+    public equipmentControllerUpdate(id: string, updateEquipmentDto: UpdateEquipmentDto, options?: RawAxiosRequestConfig) {
+        return EquipmentApiFp(this.configuration).equipmentControllerUpdate(id, updateEquipmentDto, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+/**
+  * @export
+  * @enum {string}
+  */
+export enum EquipmentControllerFindPaginatedSortByEnum {
+    Mark = 'mark',
+    Name = 'name',
+    Type = 'type',
+    Status = 'status',
+    CreatedAt = 'createdAt',
+    UpdatedAt = 'updatedAt'
+}
+/**
+  * @export
+  * @enum {string}
+  */
+export enum EquipmentControllerFindPaginatedSortOrderEnum {
+    Asc = 'asc',
+    Desc = 'desc'
+}
 
 
 /**
@@ -4803,6 +6345,689 @@ export class RoleManagementApi extends BaseAPI implements RoleManagementApiInter
      */
     public rolesControllerRemoveRole(projectId: string, userId: string, roleName: string, reason?: string, options?: RawAxiosRequestConfig) {
         return RoleManagementApiFp(this.configuration).rolesControllerRemoveRole(projectId, userId, roleName, reason, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * StorageApi - axios parameter creator
+ * @export
+ */
+export const StorageApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Delete a file from storage
+         * @param {string} id File ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        storageControllerDeleteFile: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('storageControllerDeleteFile', 'id', id)
+            const localVarPath = `/storage/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Download a file from storage
+         * @param {string} id File ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        storageControllerDownloadFile: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('storageControllerDownloadFile', 'id', id)
+            const localVarPath = `/storage/{id}/download`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get file metadata without downloading
+         * @param {string} id File ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        storageControllerGetFileMetadata: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('storageControllerGetFileMetadata', 'id', id)
+            const localVarPath = `/storage/{id}/metadata`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get a presigned URL for direct file access
+         * @param {string} id File ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        storageControllerGetFileUrl: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('storageControllerGetFileUrl', 'id', id)
+            const localVarPath = `/storage/{id}/url`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary List files by project ID (query param)
+         * @param {string} projectId The project ID to list files for
+         * @param {number} [page] 
+         * @param {number} [limit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        storageControllerListFiles: async (projectId: string, page?: number, limit?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectId' is not null or undefined
+            assertParamExists('storageControllerListFiles', 'projectId', projectId)
+            const localVarPath = `/storage/files`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+            if (projectId !== undefined) {
+                localVarQueryParameter['projectId'] = projectId;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary List all files in a project
+         * @param {string} projectId Project ID
+         * @param {number} [page] 
+         * @param {number} [limit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        storageControllerListProjectFiles: async (projectId: string, page?: number, limit?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectId' is not null or undefined
+            assertParamExists('storageControllerListProjectFiles', 'projectId', projectId)
+            const localVarPath = `/storage/project/{projectId}`
+                .replace(`{${"projectId"}}`, encodeURIComponent(String(projectId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Upload a file to storage
+         * @param {string} projectId The project ID to associate the file with
+         * @param {object} [metadata] Optional metadata to store with the file
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        storageControllerUploadFile: async (projectId: string, metadata?: object, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'projectId' is not null or undefined
+            assertParamExists('storageControllerUploadFile', 'projectId', projectId)
+            const localVarPath = `/storage/upload`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+            if (projectId !== undefined) { 
+                localVarFormParams.append('projectId', projectId as any);
+            }
+    
+            if (metadata !== undefined) { 
+                localVarFormParams.append('metadata', new Blob([JSON.stringify(metadata)], { type: "application/json", }));
+            }
+    
+    
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = localVarFormParams;
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * StorageApi - functional programming interface
+ * @export
+ */
+export const StorageApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = StorageApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Delete a file from storage
+         * @param {string} id File ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async storageControllerDeleteFile(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StorageControllerUploadFile200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.storageControllerDeleteFile(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['StorageApi.storageControllerDeleteFile']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Download a file from storage
+         * @param {string} id File ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async storageControllerDownloadFile(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.storageControllerDownloadFile(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['StorageApi.storageControllerDownloadFile']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Get file metadata without downloading
+         * @param {string} id File ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async storageControllerGetFileMetadata(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StorageControllerUploadFile200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.storageControllerGetFileMetadata(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['StorageApi.storageControllerGetFileMetadata']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Get a presigned URL for direct file access
+         * @param {string} id File ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async storageControllerGetFileUrl(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StorageControllerGetFileUrl200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.storageControllerGetFileUrl(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['StorageApi.storageControllerGetFileUrl']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary List files by project ID (query param)
+         * @param {string} projectId The project ID to list files for
+         * @param {number} [page] 
+         * @param {number} [limit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async storageControllerListFiles(projectId: string, page?: number, limit?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StorageControllerUploadFile200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.storageControllerListFiles(projectId, page, limit, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['StorageApi.storageControllerListFiles']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary List all files in a project
+         * @param {string} projectId Project ID
+         * @param {number} [page] 
+         * @param {number} [limit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async storageControllerListProjectFiles(projectId: string, page?: number, limit?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StorageControllerUploadFile200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.storageControllerListProjectFiles(projectId, page, limit, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['StorageApi.storageControllerListProjectFiles']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Upload a file to storage
+         * @param {string} projectId The project ID to associate the file with
+         * @param {object} [metadata] Optional metadata to store with the file
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async storageControllerUploadFile(projectId: string, metadata?: object, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StorageControllerUploadFile200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.storageControllerUploadFile(projectId, metadata, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['StorageApi.storageControllerUploadFile']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * StorageApi - factory interface
+ * @export
+ */
+export const StorageApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = StorageApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Delete a file from storage
+         * @param {string} id File ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        storageControllerDeleteFile(id: string, options?: RawAxiosRequestConfig): AxiosPromise<StorageControllerUploadFile200Response> {
+            return localVarFp.storageControllerDeleteFile(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Download a file from storage
+         * @param {string} id File ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        storageControllerDownloadFile(id: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.storageControllerDownloadFile(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get file metadata without downloading
+         * @param {string} id File ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        storageControllerGetFileMetadata(id: string, options?: RawAxiosRequestConfig): AxiosPromise<StorageControllerUploadFile200Response> {
+            return localVarFp.storageControllerGetFileMetadata(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get a presigned URL for direct file access
+         * @param {string} id File ID
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        storageControllerGetFileUrl(id: string, options?: RawAxiosRequestConfig): AxiosPromise<StorageControllerGetFileUrl200Response> {
+            return localVarFp.storageControllerGetFileUrl(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary List files by project ID (query param)
+         * @param {string} projectId The project ID to list files for
+         * @param {number} [page] 
+         * @param {number} [limit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        storageControllerListFiles(projectId: string, page?: number, limit?: number, options?: RawAxiosRequestConfig): AxiosPromise<StorageControllerUploadFile200Response> {
+            return localVarFp.storageControllerListFiles(projectId, page, limit, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary List all files in a project
+         * @param {string} projectId Project ID
+         * @param {number} [page] 
+         * @param {number} [limit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        storageControllerListProjectFiles(projectId: string, page?: number, limit?: number, options?: RawAxiosRequestConfig): AxiosPromise<StorageControllerUploadFile200Response> {
+            return localVarFp.storageControllerListProjectFiles(projectId, page, limit, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Upload a file to storage
+         * @param {string} projectId The project ID to associate the file with
+         * @param {object} [metadata] Optional metadata to store with the file
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        storageControllerUploadFile(projectId: string, metadata?: object, options?: RawAxiosRequestConfig): AxiosPromise<StorageControllerUploadFile200Response> {
+            return localVarFp.storageControllerUploadFile(projectId, metadata, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * StorageApi - interface
+ * @export
+ * @interface StorageApi
+ */
+export interface StorageApiInterface {
+    /**
+     * 
+     * @summary Delete a file from storage
+     * @param {string} id File ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StorageApiInterface
+     */
+    storageControllerDeleteFile(id: string, options?: RawAxiosRequestConfig): AxiosPromise<StorageControllerUploadFile200Response>;
+
+    /**
+     * 
+     * @summary Download a file from storage
+     * @param {string} id File ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StorageApiInterface
+     */
+    storageControllerDownloadFile(id: string, options?: RawAxiosRequestConfig): AxiosPromise<void>;
+
+    /**
+     * 
+     * @summary Get file metadata without downloading
+     * @param {string} id File ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StorageApiInterface
+     */
+    storageControllerGetFileMetadata(id: string, options?: RawAxiosRequestConfig): AxiosPromise<StorageControllerUploadFile200Response>;
+
+    /**
+     * 
+     * @summary Get a presigned URL for direct file access
+     * @param {string} id File ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StorageApiInterface
+     */
+    storageControllerGetFileUrl(id: string, options?: RawAxiosRequestConfig): AxiosPromise<StorageControllerGetFileUrl200Response>;
+
+    /**
+     * 
+     * @summary List files by project ID (query param)
+     * @param {string} projectId The project ID to list files for
+     * @param {number} [page] 
+     * @param {number} [limit] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StorageApiInterface
+     */
+    storageControllerListFiles(projectId: string, page?: number, limit?: number, options?: RawAxiosRequestConfig): AxiosPromise<StorageControllerUploadFile200Response>;
+
+    /**
+     * 
+     * @summary List all files in a project
+     * @param {string} projectId Project ID
+     * @param {number} [page] 
+     * @param {number} [limit] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StorageApiInterface
+     */
+    storageControllerListProjectFiles(projectId: string, page?: number, limit?: number, options?: RawAxiosRequestConfig): AxiosPromise<StorageControllerUploadFile200Response>;
+
+    /**
+     * 
+     * @summary Upload a file to storage
+     * @param {string} projectId The project ID to associate the file with
+     * @param {object} [metadata] Optional metadata to store with the file
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StorageApiInterface
+     */
+    storageControllerUploadFile(projectId: string, metadata?: object, options?: RawAxiosRequestConfig): AxiosPromise<StorageControllerUploadFile200Response>;
+
+}
+
+/**
+ * StorageApi - object-oriented interface
+ * @export
+ * @class StorageApi
+ * @extends {BaseAPI}
+ */
+export class StorageApi extends BaseAPI implements StorageApiInterface {
+    /**
+     * 
+     * @summary Delete a file from storage
+     * @param {string} id File ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StorageApi
+     */
+    public storageControllerDeleteFile(id: string, options?: RawAxiosRequestConfig) {
+        return StorageApiFp(this.configuration).storageControllerDeleteFile(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Download a file from storage
+     * @param {string} id File ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StorageApi
+     */
+    public storageControllerDownloadFile(id: string, options?: RawAxiosRequestConfig) {
+        return StorageApiFp(this.configuration).storageControllerDownloadFile(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get file metadata without downloading
+     * @param {string} id File ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StorageApi
+     */
+    public storageControllerGetFileMetadata(id: string, options?: RawAxiosRequestConfig) {
+        return StorageApiFp(this.configuration).storageControllerGetFileMetadata(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get a presigned URL for direct file access
+     * @param {string} id File ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StorageApi
+     */
+    public storageControllerGetFileUrl(id: string, options?: RawAxiosRequestConfig) {
+        return StorageApiFp(this.configuration).storageControllerGetFileUrl(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary List files by project ID (query param)
+     * @param {string} projectId The project ID to list files for
+     * @param {number} [page] 
+     * @param {number} [limit] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StorageApi
+     */
+    public storageControllerListFiles(projectId: string, page?: number, limit?: number, options?: RawAxiosRequestConfig) {
+        return StorageApiFp(this.configuration).storageControllerListFiles(projectId, page, limit, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary List all files in a project
+     * @param {string} projectId Project ID
+     * @param {number} [page] 
+     * @param {number} [limit] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StorageApi
+     */
+    public storageControllerListProjectFiles(projectId: string, page?: number, limit?: number, options?: RawAxiosRequestConfig) {
+        return StorageApiFp(this.configuration).storageControllerListProjectFiles(projectId, page, limit, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Upload a file to storage
+     * @param {string} projectId The project ID to associate the file with
+     * @param {object} [metadata] Optional metadata to store with the file
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StorageApi
+     */
+    public storageControllerUploadFile(projectId: string, metadata?: object, options?: RawAxiosRequestConfig) {
+        return StorageApiFp(this.configuration).storageControllerUploadFile(projectId, metadata, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
