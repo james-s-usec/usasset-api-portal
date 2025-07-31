@@ -1,5 +1,5 @@
-import { Configuration } from '../api-sdk/dist/configuration.js';
-import { AuthenticationApi, UsersApi, ProjectsApi } from '../api-sdk/dist/api.js';
+import { Configuration } from '../api-sdk/configuration.js';
+import { AuthenticationApi, UsersApi, ProjectsApi } from '../api-sdk/api.js';
 import { authStorage } from '../utils/auth-storage';
 
 // Create configuration with auth support
