@@ -140,11 +140,32 @@ All API responses follow the standardized format from the backend service.
 
 ## Key Features
 
-### Authentication System
-- Azure AD SSO integration
-- JWT token management
-- Auto-refresh token logic
-- Protected routes with React Router
+### 🚨 **CRITICAL: Project-Scoped Authentication**
+
+**Unlike typical authentication systems, USAsset requires a PROJECT ID for login:**
+
+```json
+{
+  "email": "user@example.com",
+  "password": "password",
+  "projectId": "86b3ee96-4c01-448a-a34d-53b63e03acba"  // REQUIRED!
+}
+```
+
+**Without projectId, you get 400 Bad Request. The projectId must be:**
+- A valid UUID format
+- A project that exists in the database
+- A project the user has been assigned a role in
+
+**If user lacks project access: 401 "No access to this project"**
+
+### Authentication System (✅ WORKING)
+- ✅ **Project-scoped login** - User selects project from dropdown
+- ✅ **JWT token management** - Project-scoped tokens
+- ✅ **Dashboard integration** - Shows user role and permissions
+- ✅ **Protected routes** with React Router
+- 🚧 **Azure AD SSO integration** - To Be Implemented
+- 🚧 **Auto-refresh token logic** - To Be Implemented
 
 ### RBAC Integration
 - Role-based UI components
@@ -277,3 +298,40 @@ To set up automatic deployments:
 - **SWA Deployment Token**: Stored for future manual deployments
 - **Resource Group**: useng-usasset-api-rg
 - **Static Web App Name**: useng-usasset-portal
+
+### 🧪 **Test Login Instructions** (✅ VERIFIED WORKING)
+
+**Portal URL**: https://salmon-field-08d82e40f.2.azurestaticapps.net
+
+#### Azure AD Authentication (✅ PRODUCTION READY)
+**Login Process:**
+1. Click **"Azure AD"** → **"Sign in with Microsoft"**
+2. Enter **U.S. Engineering credentials**: `james.swanson@usengineering.com`
+3. Complete Microsoft authentication (may require email verification)
+4. Automatically redirected to dashboard with Microsoft identity
+
+**Azure AD Configuration:**
+- **Client ID**: `a6d15feb-fe60-444a-a240-0d18b9979abe` (stored in Key Vault)
+- **Tenant ID**: `8c54d37e-75b4-4799-9cda-db77000f1944` (U.S. Engineering)
+- **Redirect URI**: `https://salmon-field-08d82e40f.2.azurestaticapps.net/auth/callback`
+
+#### Username/Password Authentication
+**Login Process:**
+1. Select **Project**: "Construction Site Alpha" (or other available projects)
+2. Enter **Email**: `super@test.com`
+3. Enter **Password**: `ChangeMe123!`
+4. Click **Login**
+
+**Available Test Users:**
+- **Super User**: `super@test.com` / `ChangeMe123!` (All roles, all projects)
+- **Admin**: `admin@usasset.com` / `ChangeMe123` (Project admin role)
+- **Manager**: `manager@usasset.com` / `ChangeMe123` (Project manager role)
+- **Engineer**: `engineer@usasset.com` / `ChangeMe123` (Engineer role)
+- **Viewer**: `viewer@usasset.com` / `ChangeMe123` (Read-only role)
+
+**Available Projects:**
+- Construction Site Alpha (`86b3ee96-4c01-448a-a34d-53b63e03acba`)
+- Renovation Project Beta (`bf97c79f-1158-4666-b5cf-bdfeacc9a7b0`)
+- Infrastructure Project Gamma (`dc7b058a-c797-4ea2-a536-24fd36194f1b`)
+
+**Expected Result**: Dashboard shows user info, role, and 27 permissions

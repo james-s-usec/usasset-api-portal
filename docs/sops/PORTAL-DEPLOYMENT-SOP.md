@@ -106,7 +106,7 @@ npm run build
 
 # 3. Deploy
 npx @azure/static-web-apps-cli deploy ./dist \
-  --deployment-token "3fbb3d5c96a67ab9a2dd0b5c577ff71cf7e8a0e0365240c8f2bd8f044cedb03002-185458a5-803d-48a2-91ba-fe9a4808edaf00f111408d82e40f" \
+  --deployment-token "$DEPLOYMENT_TOKEN" \
   --env production
 ```
 

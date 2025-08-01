@@ -11,7 +11,7 @@ npm run build
 
 # 2. Deploy to Azure
 npx @azure/static-web-apps-cli deploy ./dist \
-  --deployment-token "3fbb3d5c96a67ab9a2dd0b5c577ff71cf7e8a0e0365240c8f2bd8f044cedb03002-185458a5-803d-48a2-91ba-fe9a4808edaf00f111408d82e40f" \
+  --deployment-token "$DEPLOYMENT_TOKEN" \
   --env production
 ```
 
@@ -51,10 +51,30 @@ az staticwebapp show \
 curl https://useng-usasset-api.lemonforest-4e4757f3.eastus.azurecontainerapps.io/v1/health
 ```
 
-### 🧪 **Test Login**
+### 🧪 **Test Login** (✅ VERIFIED WORKING)
 - **URL**: https://salmon-field-08d82e40f.2.azurestaticapps.net
-- **Super User**: `super@test.com` / `ChangeMe123!`
-- **Regular Users**: `admin@usasset.com` / `ChangeMe123`
+
+**🚨 CRITICAL: Must select PROJECT before login!**
+
+**Login Process:**
+1. Select **Project**: "Construction Site Alpha" (or other available projects)
+2. Enter **Email**: `super@test.com`
+3. Enter **Password**: `ChangeMe123!`
+4. Click **Login**
+
+**Test Users:**
+- **Super User**: `super@test.com` / `ChangeMe123!` (All roles, all projects)
+- **Admin**: `admin@usasset.com` / `ChangeMe123`
+- **Manager**: `manager@usasset.com` / `ChangeMe123`
+- **Engineer**: `engineer@usasset.com` / `ChangeMe123`
+- **Viewer**: `viewer@usasset.com` / `ChangeMe123`
+
+**Available Projects:**
+- Construction Site Alpha (`86b3ee96-4c01-448a-a34d-53b63e03acba`)
+- Renovation Project Beta (`bf97c79f-1158-4666-b5cf-bdfeacc9a7b0`)
+- Infrastructure Project Gamma (`dc7b058a-c797-4ea2-a536-24fd36194f1b`)
+
+**Expected Result**: Dashboard with user info, role, and 27 permissions
 
 ---
 
