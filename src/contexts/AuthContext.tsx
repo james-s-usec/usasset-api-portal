@@ -82,6 +82,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     // Check JWT first
     const token = authStorage.getToken();
     if (token) {
+      // Check if token is expired
+      if (authStorage.isTokenExpired()) {
+        authStorage.clearToken();
+        authStorage.dispatchAuthExpired();
+        updateState({ isAuthenticated: false, loading: false });
+        return;
+      }
+
       const user = await loadUserProfile(token);
       if (user) {
         updateState({
@@ -209,6 +217,39 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   useEffect(() => {
     checkExistingAuth();
   }, [checkExistingAuth]);
+
+  // Auto-logout on token expiration
+  useEffect(() => {
+    if (!state.isAuthenticated || state.authMethod !== 'jwt') return;
+
+    const token = authStorage.getToken();
+    if (!token) return;
+
+    const timeUntilExpiration = authStorage.getTimeUntilExpiration();
+    if (timeUntilExpiration <= 0) {
+      logout();
+      return;
+    }
+
+    // Set timeout to logout when token expires
+    const timeoutId = setTimeout(() => {
+      logout();
+      authStorage.dispatchAuthExpired();
+    }, timeUntilExpiration);
+
+    return () => clearTimeout(timeoutId);
+  }, [state.isAuthenticated, state.authMethod, logout]);
+
+  // Listen for cross-tab auth expiration events
+  useEffect(() => {
+    const cleanup = authStorage.onAuthExpired(() => {
+      if (state.isAuthenticated) {
+        logout();
+      }
+    });
+
+    return cleanup;
+  }, [state.isAuthenticated, logout]);
 
   // Context value
   const contextValue: AuthContextType = {

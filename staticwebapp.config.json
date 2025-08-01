@@ -14,7 +14,10 @@
     "X-Frame-Options": "SAMEORIGIN",
     "X-XSS-Protection": "1; mode=block",
     "Referrer-Policy": "no-referrer-when-downgrade",
-    "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.azurecontainerapps.io https://api.usasset.com;"
+    "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https:; connect-src 'self' https://*.azurecontainerapps.io https://login.microsoftonline.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self';",
+    "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+    "Permissions-Policy": "geolocation=(), microphone=(), camera=(), payment=(), usb=()",
+    "Cross-Origin-Embedder-Policy": "require-corp"
   },
   "mimeTypes": {
     ".json": "application/json",
@@ -24,7 +27,7 @@
   "routes": [
     {
       "route": "/api/*",
-      "rewrite": "https://ca-usasset-api.yellowforest-928e9b23.eastus.azurecontainerapps.io/v1/*"
+      "rewrite": "https://useng-usasset-api.lemonforest-4e4757f3.eastus.azurecontainerapps.io/v1/*"
     }
   ]
 }

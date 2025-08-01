@@ -162,10 +162,12 @@ All API responses follow the standardized format from the backend service.
 ### Authentication System (✅ WORKING)
 - ✅ **Project-scoped login** - User selects project from dropdown
 - ✅ **JWT token management** - Project-scoped tokens
+- ✅ **Token expiration handling** - Automatic logout on expiration ([docs](docs/features/TOKEN_EXPIRATION_HANDLING.md))
+- ✅ **Cross-tab synchronization** - Logout events synced across browser tabs
+- ✅ **API 401 handling** - Automatic token cleanup on server invalidation
 - ✅ **Dashboard integration** - Shows user role and permissions
 - ✅ **Protected routes** with React Router
 - 🚧 **Azure AD SSO integration** - To Be Implemented
-- 🚧 **Auto-refresh token logic** - To Be Implemented
 
 ### RBAC Integration
 - Role-based UI components

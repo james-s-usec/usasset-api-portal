@@ -32,8 +32,8 @@ export function DebugApiKey(): React.JSX.Element {
 
   const updateStorageInfo = useCallback((): void => {
     setStorageInfo({
-      apiKey: localStorage.getItem('apiKey'),
-      authToken: localStorage.getItem('authToken'),
+      apiKey: authStorage.getApiKey(),
+      authToken: authStorage.getToken(),
       authState: {
         isAuthenticated: auth.isAuthenticated,
         authMethod: auth.authMethod,
@@ -60,11 +60,11 @@ export function DebugApiKey(): React.JSX.Element {
     authStorage.clearAll();
     await new Promise(r => setTimeout(r, 100));
     
-    // Step 2: Set API key in localStorage
+    // Step 2: Set API key using auth storage
     setFlowStep(2);
     addResult(`Step 2: Setting API key: ${apiKey}`);
-    localStorage.setItem('apiKey', apiKey);
-    addResult(`Step 2 Result: localStorage.apiKey = ${localStorage.getItem('apiKey')}`);
+    authStorage.setApiKey(apiKey);
+    addResult(`Step 2 Result: sessionStorage.apiKey = ${authStorage.getApiKey()}`);
     await new Promise(r => setTimeout(r, 100));
     
     // Step 3: Call handleApiKeySuccess
@@ -86,7 +86,7 @@ export function DebugApiKey(): React.JSX.Element {
 
   const handleTestRequest = async (): Promise<void> => {
     addResult('Testing API request...');
-    const apiKeyFromStorage = localStorage.getItem('apiKey');
+    const apiKeyFromStorage = authStorage.getApiKey();
     addResult(`Using API key from storage: ${apiKeyFromStorage}`);
     
     try {
@@ -201,7 +201,7 @@ export function DebugApiKey(): React.JSX.Element {
       <div style={{ marginTop: '15px' }}>
         <h4>Flow Steps:</h4>
         <div style={stepStyle(1)}>Step 1: Clear existing auth</div>
-        <div style={stepStyle(2)}>Step 2: Set API key in localStorage</div>
+        <div style={stepStyle(2)}>Step 2: Set API key in sessionStorage</div>
         <div style={stepStyle(3)}>Step 3: Call handleApiKeySuccess</div>
         <div style={stepStyle(4)}>Step 4: Check final state</div>
         <div style={stepStyle(5)}>Step 5: Complete!</div>
