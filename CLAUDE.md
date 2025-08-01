@@ -24,15 +24,23 @@ The portal uses the auto-generated TypeScript SDK from the API service. See the 
 
 ## Azure Deployment Information
 
-### Deployment Target: Azure Static Web Apps
-The portal is deployed to Azure Static Web Apps for optimal performance and cost efficiency.
+### U.S. Engineering Production Deployment (LIVE)
+- **Account**: james.swanson@usengineering.com
+- **Subscription**: Azure-CSP-Sandbox (544f8f60-d8ff-406b-adef-77fc16e86aac)
+- **Portal URL**: https://salmon-field-08d82e40f.2.azurestaticapps.net
+- **API URL**: https://useng-usasset-api.lemonforest-4e4757f3.eastus.azurecontainerapps.io
+- **Resource Group**: useng-usasset-api-rg
+- **Static Web App**: useng-usasset-portal
+- **Region**: East US 2
+- **Status**: ✅ **DEPLOYED** (August 1, 2025)
 
-### Quick Reference
-- **Deployment Type**: Azure Static Web Apps (not Container Apps)
-- **Portal URL**: Will be `https://<app-name>.azurestaticapps.net` (or custom domain)
+### Demo Environment (Legacy)
+- **Portal URL**: https://thankful-mud-0d3112f0f.2.azurestaticapps.net
 - **API URL**: https://ca-usasset-api.yellowforest-928e9b23.eastus.azurecontainerapps.io
 - **Resource Group**: usasset-demo
-- **GitHub Integration**: Automatic deployments via GitHub Actions
+
+### Deployment Target: Azure Static Web Apps
+The portal is deployed to Azure Static Web Apps for optimal performance and cost efficiency.
 
 ### Why Static Web Apps?
 - **Cost**: Free tier includes 100GB bandwidth/month
@@ -47,30 +55,54 @@ VITE_API_URL=http://localhost:3000
 VITE_AZURE_AD_CLIENT_ID=development-client-id
 VITE_AZURE_AD_TENANT_ID=development-tenant-id
 
-# Production (set in GitHub Actions or SWA settings)
-VITE_API_URL=https://ca-usasset-api.yellowforest-928e9b23.eastus.azurecontainerapps.io
+# U.S. Engineering Production
+VITE_API_URL=https://useng-usasset-api.lemonforest-4e4757f3.eastus.azurecontainerapps.io
 VITE_AZURE_AD_CLIENT_ID=<production-client-id>
-VITE_AZURE_AD_TENANT_ID=<production-tenant-id>
+VITE_AZURE_AD_TENANT_ID=8c54d37e-75b4-4799-9cda-db77000f1944
+
+# Demo Environment (Legacy)
+VITE_API_URL=https://ca-usasset-api.yellowforest-928e9b23.eastus.azurecontainerapps.io
+VITE_AZURE_AD_CLIENT_ID=<demo-client-id>
+VITE_AZURE_AD_TENANT_ID=<demo-tenant-id>
 ```
 
 ### Deployment Commands
+
+#### U.S. Engineering Production
 ```bash
-# Create Static Web App
+# Create Static Web App (COMPLETED)
 az staticwebapp create \
-  --name swa-usasset-portal \
-  --resource-group usasset-demo \
+  --name "useng-usasset-portal" \
+  --resource-group "useng-usasset-api-rg" \
+  --location "eastus2" \
   --sku Free
 
-# Manual deployment (if needed)
+# Manual deployment using SWA CLI
 npm run build
-az staticwebapp deploy \
-  --app-name swa-usasset-portal \
-  --output-location dist
+npx @azure/static-web-apps-cli deploy ./dist \
+  --deployment-token "<deployment-token>" \
+  --env production
+
+# Set environment variables
+az staticwebapp appsettings set \
+  --name "useng-usasset-portal" \
+  --resource-group "useng-usasset-api-rg" \
+  --setting-names \
+    "VITE_API_URL=https://useng-usasset-api.lemonforest-4e4757f3.eastus.azurecontainerapps.io"
 
 # View deployment status
 az staticwebapp show \
-  --name swa-usasset-portal \
-  --resource-group usasset-demo
+  --name "useng-usasset-portal" \
+  --resource-group "useng-usasset-api-rg"
+```
+
+#### Get Deployment Token
+```bash
+# Get deployment token for manual deployments
+az staticwebapp secrets list \
+  --name "useng-usasset-portal" \
+  --resource-group "useng-usasset-api-rg" \
+  --query "properties.apiKey" -o tsv
 ```
 
 ## Architecture & Code Standards
@@ -201,7 +233,9 @@ docs/                  # Portal-specific documentation
 ## TODO: Portal-Specific Items
 - [x] Create Docker setup for local development
 - [x] Create Static Web App configuration
-- [ ] Push to GitHub and connect to Azure
+- [x] Deploy to U.S. Engineering Azure environment
+- [x] Configure API CORS for portal domain
+- [x] Set up manual deployment process
 - [ ] Configure GitHub Actions for auto-deployment
 - [ ] Implement core UI components
 - [ ] Add unit/integration tests
@@ -210,12 +244,27 @@ docs/                  # Portal-specific documentation
 
 ## Deployment Summary
 
-### Minimum Steps to Deploy:
-1. Push code to GitHub repository
-2. Create Azure Static Web App with GitHub integration
-3. Configure environment variables
-4. Update API CORS settings
-5. Done! Automatic deployments on push to main
+### ✅ Current Deployment Status (August 1, 2025)
+**U.S. Engineering Portal is LIVE and operational:**
+- **Portal**: https://salmon-field-08d82e40f.2.azurestaticapps.net
+- **API**: https://useng-usasset-api.lemonforest-4e4757f3.eastus.azurecontainerapps.io
+- **Build Size**: 296.17 kB
+- **CORS**: Configured for portal domain
+- **Deployment Method**: Manual via SWA CLI
+
+### Manual Deployment Steps (COMPLETED):
+1. ✅ Create Azure Static Web App (`useng-usasset-portal`)
+2. ✅ Build portal with production API URL
+3. ✅ Deploy using SWA CLI with deployment token
+4. ✅ Configure environment variables in Azure
+5. ✅ Update API CORS settings to allow portal domain
+6. ✅ Test portal accessibility and API connection
+
+### Future: GitHub Actions Deployment
+To set up automatic deployments:
+1. Add GitHub repository integration
+2. Configure GitHub Actions workflow
+3. Set AZURE_STATIC_WEB_APPS_API_TOKEN secret
 
 ### Key Differences from Container Apps:
 - No Docker images in production (SWA builds from source)
@@ -223,3 +272,8 @@ docs/                  # Portal-specific documentation
 - Automatic PR preview environments
 - Built-in CDN and SSL
 - Zero to minimal monthly cost (Free tier)
+
+### Deployment Tokens & Keys
+- **SWA Deployment Token**: Stored for future manual deployments
+- **Resource Group**: useng-usasset-api-rg
+- **Static Web App Name**: useng-usasset-portal
